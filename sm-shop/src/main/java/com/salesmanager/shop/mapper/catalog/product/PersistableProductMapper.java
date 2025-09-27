@@ -16,7 +16,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
@@ -303,7 +303,7 @@ public class PersistableProductMapper implements Mapper<PersistableProduct, Prod
 	}
 	
 	private ProductAvailability defaultAvailability(List <ProductAvailability> availabilityList) {
-		return availabilityList.stream().filter(a -> a.getRegion() != null && a.getRegion().equals(Constants.ALL_REGIONS)).findFirst().get();
+		return availabilityList.stream().filter(a -> a.getRegion() != null && a.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)).findFirst().get();
 	}
 	
 

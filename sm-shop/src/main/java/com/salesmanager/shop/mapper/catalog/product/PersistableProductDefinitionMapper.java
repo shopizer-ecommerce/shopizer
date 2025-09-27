@@ -13,7 +13,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
@@ -187,7 +187,7 @@ public class PersistableProductDefinitionMapper implements Mapper<PersistablePro
 		      productAvailability.setProductQuantity(source.getQuantity());
 			  productAvailability.setProductQuantityOrderMin(1);
 			  productAvailability.setProductQuantityOrderMax(1);
-			  productAvailability.setRegion(Constants.ALL_REGIONS);
+			  productAvailability.setRegion(CoreBusinessConstants.ALL_REGIONS);
 			  productAvailability.setAvailable(Boolean.valueOf(destination.isAvailable()));
 			  productAvailability.setProductStatus(source.isCanBePurchased());
 		    }

@@ -2,28 +2,24 @@ package com.salesmanager.shop.model.entity;
 
 import java.io.Serializable;
 
+import com.salesmanager.shop.model.constants.SmShopModelLiterals;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * @lastUpdated 2025-09-07 By Kuntal 
+ */
+@Getter
+@Setter
+@NoArgsConstructor       
+@AllArgsConstructor 
 public class EntityExists implements Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = SmShopModelLiterals.SERIAL_VERSION_UID;
+
 	private boolean exists = false;
-	
-	public EntityExists() {
-		
-	}
-
-	public EntityExists(boolean exists) {
-		this.exists = exists;
-	}
-
-	public boolean isExists() {
-		return exists;
-	}
-
-	public void setExists(boolean exists) {
-		this.exists = exists;
-	}
 
 }

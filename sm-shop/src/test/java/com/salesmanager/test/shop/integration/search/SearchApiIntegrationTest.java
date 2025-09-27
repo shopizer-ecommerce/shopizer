@@ -15,7 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.SearchProductList;
 import com.salesmanager.shop.model.catalog.SearchProductRequest;
@@ -46,7 +46,7 @@ public class SearchApiIntegrationTest extends ServicesTestSupport {
     	
         final HttpEntity<PersistableProduct> entity = new HttpEntity<>(product, getHeader());
 
-        final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+        final ResponseEntity<PersistableProduct> response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + CoreBusinessConstants.DEFAULT_STORE, entity, PersistableProduct.class);
         assertThat(response.getStatusCode(), is(CREATED));
         
         SearchProductRequest searchRequest = new SearchProductRequest();
@@ -54,7 +54,7 @@ public class SearchApiIntegrationTest extends ServicesTestSupport {
         final HttpEntity<SearchProductRequest> searchEntity = new HttpEntity<>(searchRequest, getHeader());
         
         
-        final ResponseEntity<SearchProductList> searchResponse = testRestTemplate.postForEntity("/api/v1/search?store=" + Constants.DEFAULT_STORE, searchEntity, SearchProductList.class);
+        final ResponseEntity<SearchProductList> searchResponse = testRestTemplate.postForEntity("/api/v1/search?store=" + CoreBusinessConstants.DEFAULT_STORE, searchEntity, SearchProductList.class);
         assertThat(searchResponse.getStatusCode(), is(CREATED));
 
     }

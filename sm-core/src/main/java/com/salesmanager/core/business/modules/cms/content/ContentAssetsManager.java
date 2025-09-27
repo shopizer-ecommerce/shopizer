@@ -2,7 +2,7 @@ package com.salesmanager.core.business.modules.cms.content;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.modules.cms.common.AssetsManager;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.model.content.FileContentType;
@@ -33,7 +33,7 @@ public interface ContentAssetsManager extends AssetsManager, FileGet, FilePut, F
         String root = nodePath(store);
         builder.append(root);
         if (type != null && !FileContentType.IMAGE.name().equals(type.name()) && !FileContentType.STATIC_FILE.name().equals(type.name())) {
-            builder.append(type.name()).append(Constants.SLASH);
+            builder.append(type.name()).append(CoreBusinessConstants.SLASH);
         }
 
         return builder.toString();
@@ -43,7 +43,7 @@ public interface ContentAssetsManager extends AssetsManager, FileGet, FilePut, F
     default String nodePath(String store) {
 
         StringBuilder builder = new StringBuilder();
-        builder.append(ROOT_NAME).append(Constants.SLASH).append(store).append(Constants.SLASH);
+        builder.append(ROOT_NAME).append(CoreBusinessConstants.SLASH).append(store).append(CoreBusinessConstants.SLASH);
         return builder.toString();
 
     }
@@ -57,7 +57,7 @@ public interface ContentAssetsManager extends AssetsManager, FileGet, FilePut, F
     }
 
     default boolean isInsideSubFolder(String key) {
-        int c = StringUtils.countMatches(key, Constants.SLASH);
+        int c = StringUtils.countMatches(key, CoreBusinessConstants.SLASH);
         return c > 2;
     }
 

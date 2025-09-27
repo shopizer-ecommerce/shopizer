@@ -6,9 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -19,6 +20,7 @@ import com.salesmanager.core.model.catalog.product.variant.ProductVariant;
 
 
 @Service("inventoryService")
+@Transactional
 public class ProductInventoryServiceImpl implements ProductInventoryService {
 	
 	
@@ -65,7 +67,7 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 		
 		for (ProductAvailability availability : availabilities) {
 			if (!StringUtils.isEmpty(availability.getRegion())
-					&& availability.getRegion().equals(Constants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
+					&& availability.getRegion().equals(CoreBusinessConstants.ALL_REGIONS)) {// TODO REL 2.1 accept a region
 				defaultAvailability = availability;
 			}
 		}

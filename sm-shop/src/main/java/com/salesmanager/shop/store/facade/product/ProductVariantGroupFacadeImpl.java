@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantGroupService;
 import com.salesmanager.core.business.services.catalog.product.variant.ProductVariantImageService;
@@ -161,7 +161,7 @@ public class ProductVariantGroupFacadeImpl implements ProductVariantGroupFacade 
 		
 		try {
 			
-			String path = new StringBuilder().append("group").append(Constants.SLASH).append(instanceGroupId).toString();
+			String path = new StringBuilder().append("group").append(CoreBusinessConstants.SLASH).append(instanceGroupId).toString();
 			
 			
 			
@@ -205,7 +205,7 @@ public class ProductVariantGroupFacadeImpl implements ProductVariantGroupFacade 
 
 		
 		try {
-			contentService.removeFile(Constants.SLASH + store.getCode() + Constants.SLASH + productVariantGroupId, FileContentType.VARIANT, image.getProductImage());
+			contentService.removeFile(CoreBusinessConstants.SLASH + store.getCode() + CoreBusinessConstants.SLASH + productVariantGroupId, FileContentType.VARIANT, image.getProductImage());
 			group.getImages().removeIf(i -> (i.getId() == image.getId()));
 			//update productVariantroup
 			productVariantGroupService.update(group);

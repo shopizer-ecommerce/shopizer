@@ -14,7 +14,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
@@ -190,7 +190,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			BigDecimal tax = null;
 			for(OrderTotal total : orderTotals) {
 				
-				if(total.getModule().equals(Constants.OT_SHIPPING_MODULE_CODE)) {
+				if(total.getModule().equals(CoreBusinessConstants.OT_SHIPPING_MODULE_CODE)) {
 					BasicAmountType shipping = new BasicAmountType();
 					shipping.setCurrencyID(urn.ebay.apis.eBLBaseComponents.CurrencyCodeType.fromValue(store.getCurrency().getCode()));
 					shipping.setValue(pricingService.getStringAmount(total.getValue(), store));
@@ -198,7 +198,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 					paymentDetails.setShippingTotal(shipping);
 				}
 				
-				if(total.getModule().equals(Constants.OT_HANDLING_MODULE_CODE)) {
+				if(total.getModule().equals(CoreBusinessConstants.OT_HANDLING_MODULE_CODE)) {
 					BasicAmountType handling = new BasicAmountType();
 					handling.setCurrencyID(urn.ebay.apis.eBLBaseComponents.CurrencyCodeType.fromValue(store.getCurrency().getCode()));
 					handling.setValue(pricingService.getStringAmount(total.getValue(), store));
@@ -206,7 +206,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 					paymentDetails.setHandlingTotal(handling);
 				}
 				
-				if(total.getModule().equals(Constants.OT_TAX_MODULE_CODE)) {
+				if(total.getModule().equals(CoreBusinessConstants.OT_TAX_MODULE_CODE)) {
 					if(tax==null) {
 						tax = new BigDecimal("0");
 					}
@@ -252,16 +252,16 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			RETURN_URL.append(
 					baseScheme);
 			
-			if(!StringUtils.isBlank(baseScheme) && !baseScheme.endsWith(Constants.SLASH)) {
-				RETURN_URL.append(Constants.SLASH);
+			if(!StringUtils.isBlank(baseScheme) && !baseScheme.endsWith(CoreBusinessConstants.SLASH)) {
+				RETURN_URL.append(CoreBusinessConstants.SLASH);
 			}
 			RETURN_URL.append(coreConfiguration.getProperty("CONTEXT_PATH", "sm-shop"));
 					
 
 
 			SetExpressCheckoutRequestDetailsType setExpressCheckoutRequestDetails = new SetExpressCheckoutRequestDetailsType();
-			String returnUrl = RETURN_URL.toString() + new StringBuilder().append(Constants.SHOP_URI).append("/paypal/checkout").append(coreConfiguration.getProperty("URL_EXTENSION", ".html")).append("/success").toString();
-			String cancelUrl = RETURN_URL.toString() + new StringBuilder().append(Constants.SHOP_URI).append("/paypal/checkout").append(coreConfiguration.getProperty("URL_EXTENSION", ".html")).append("/cancel").toString();
+			String returnUrl = RETURN_URL.toString() + new StringBuilder().append(CoreBusinessConstants.SHOP_URI).append("/paypal/checkout").append(coreConfiguration.getProperty("URL_EXTENSION", ".html")).append("/success").toString();
+			String cancelUrl = RETURN_URL.toString() + new StringBuilder().append(CoreBusinessConstants.SHOP_URI).append("/paypal/checkout").append(coreConfiguration.getProperty("URL_EXTENSION", ".html")).append("/cancel").toString();
 			
 			setExpressCheckoutRequestDetails.setReturnURL(returnUrl);
 			setExpressCheckoutRequestDetails.setCancelURL(cancelUrl);
@@ -278,7 +278,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
-			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
+			if(CoreBusinessConstants.PRODUCTION_ENVIRONMENT.equals(env)) {
 				mode = "production";
 			}
 
@@ -355,7 +355,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
-			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
+			if(CoreBusinessConstants.PRODUCTION_ENVIRONMENT.equals(env)) {
 				mode = "production";
 			}
 
@@ -444,7 +444,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
-			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
+			if(CoreBusinessConstants.PRODUCTION_ENVIRONMENT.equals(env)) {
 				mode = "production";
 			}
 			
@@ -575,7 +575,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 			
 			String mode = "sandbox";
 			String env = configuration.getEnvironment();
-			if(Constants.PRODUCTION_ENVIRONMENT.equals(env)) {
+			if(CoreBusinessConstants.PRODUCTION_ENVIRONMENT.equals(env)) {
 				mode = "production";
 			}
 

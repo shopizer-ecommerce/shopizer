@@ -27,7 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.configuration.ApplicationSearchConfiguration;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.inventory.ProductInventoryService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
@@ -124,7 +124,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 		Validate.notNull(product.getId(), "Product.id cannot be null");
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(CoreBusinessConstants.FALSE) || searchModule == null) {
 			return;
 		}
 
@@ -378,7 +378,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	public void deleteDocument(MerchantStore store, Product product) throws ServiceException {
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(CoreBusinessConstants.FALSE) || searchModule == null) {
 			return;
 		}
 
@@ -397,7 +397,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			throws ServiceException {
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(CoreBusinessConstants.FALSE) || searchModule == null) {
 			return null;
 		}
 
@@ -413,7 +413,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			int startIndex) throws ServiceException {
 
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(CoreBusinessConstants.FALSE) || searchModule == null) {
 			return null;
 		}
 
@@ -429,7 +429,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	public Optional<Document> getDocument(String language, MerchantStore store, Long productId)
 			throws ServiceException {
 		if (configuration.getProperty(INDEX_PRODUCTS) == null
-				|| configuration.getProperty(INDEX_PRODUCTS).equals(Constants.FALSE) || searchModule == null) {
+				|| configuration.getProperty(INDEX_PRODUCTS).equals(CoreBusinessConstants.FALSE) || searchModule == null) {
 			return null;
 		}
 

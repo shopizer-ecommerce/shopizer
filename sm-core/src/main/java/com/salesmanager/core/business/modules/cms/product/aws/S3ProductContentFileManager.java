@@ -19,7 +19,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
@@ -295,8 +295,8 @@ public class S3ProductContentFileManager
   }
 
   private String nodePath(String store) {
-    return new StringBuilder().append(ROOT_NAME).append(Constants.SLASH).append(store)
-        .append(Constants.SLASH).toString();
+    return new StringBuilder().append(ROOT_NAME).append(CoreBusinessConstants.SLASH).append(store)
+        .append(CoreBusinessConstants.SLASH).toString();
   }
 
   private String nodePath(String store, String product) {
@@ -307,7 +307,7 @@ public class S3ProductContentFileManager
     sb.append(nodePath);
 
     // product path
-    sb.append(product).append(Constants.SLASH);
+    sb.append(product).append(CoreBusinessConstants.SLASH);
     return sb.toString();
 
   }
@@ -326,7 +326,7 @@ public class S3ProductContentFileManager
       sb.append(LARGE);
     }
 
-    return sb.append(Constants.SLASH).toString();
+    return sb.append(CoreBusinessConstants.SLASH).toString();
 
 
   }

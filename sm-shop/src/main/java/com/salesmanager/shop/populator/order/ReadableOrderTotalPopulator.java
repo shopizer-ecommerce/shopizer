@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.services.catalog.pricing.PricingService;
 import com.salesmanager.core.business.utils.AbstractDataPopulator;
@@ -53,7 +53,7 @@ public class ReadableOrderTotalPopulator extends
 				target.setTotal(pricingService.getDisplayAmount(source.getValue(), store));
 				
 				if(!StringUtils.isBlank(source.getOrderTotalCode())) {
-					if(Constants.OT_DISCOUNT_TITLE.equals(source.getOrderTotalCode())) {
+					if(CoreBusinessConstants.OT_DISCOUNT_TITLE.equals(source.getOrderTotalCode())) {
 						target.setDiscounted(true);
 					}
 				}

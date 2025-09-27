@@ -1,36 +1,22 @@
 package com.salesmanager.shop.model.catalog.catalog;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import com.salesmanager.shop.model.entity.Entity;
+import com.salesmanager.shop.model.constants.TableNameConstant;
 
-public class CatalogEntity extends Entity implements Serializable {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private boolean visible;
-	private boolean defaultCatalog;
-	private String code;
-	public boolean isVisible() {
-		return visible;
-	}
-	public void setVisible(boolean visible) {
-		this.visible = visible;
-	}
-	public boolean isDefaultCatalog() {
-		return defaultCatalog;
-	}
-	public void setDefaultCatalog(boolean defaultCatalog) {
-		this.defaultCatalog = defaultCatalog;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+@Entity     
+@Table(name = TableNameConstant.CATALOG)
+@Getter
+@Setter
+@NoArgsConstructor
+public class CatalogEntity extends com.salesmanager.shop.model.entity.Entity {
+    private boolean visible;
+    private boolean defaultCatalog;
+    private String code;
 }

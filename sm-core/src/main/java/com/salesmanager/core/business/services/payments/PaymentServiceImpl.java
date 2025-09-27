@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.reference.loader.ConfigurationModulesLoader;
@@ -81,7 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public List<IntegrationModule> getPaymentMethods(MerchantStore store) throws ServiceException {
 		
-		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(Constants.PAYMENT_MODULES);
+		List<IntegrationModule> modules =  moduleConfigurationService.getIntegrationModules(CoreBusinessConstants.PAYMENT_MODULES);
 		List<IntegrationModule> returnModules = new ArrayList<IntegrationModule>();
 		
 		for(IntegrationModule module : modules) {
@@ -187,7 +187,7 @@ public class PaymentServiceImpl implements PaymentService {
 		try {
 		
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(CoreBusinessConstants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -224,7 +224,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		try {
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(CoreBusinessConstants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
 					
@@ -235,7 +235,7 @@ public class PaymentServiceImpl implements PaymentService {
 			} else {
 				merchantConfiguration = new MerchantConfiguration();
 				merchantConfiguration.setMerchantStore(store);
-				merchantConfiguration.setKey(Constants.PAYMENT_MODULES);
+				merchantConfiguration.setKey(CoreBusinessConstants.PAYMENT_MODULES);
 			}
 			modules.put(configuration.getModuleCode(), configuration);
 			
@@ -258,7 +258,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 		try {
 			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
-			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.PAYMENT_MODULES, store);
+			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(CoreBusinessConstants.PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -527,10 +527,10 @@ public class PaymentServiceImpl implements PaymentService {
 		transactionService.create(transaction);
 		
         OrderTotal refund = new OrderTotal();
-        refund.setModule(Constants.OT_REFUND_MODULE_CODE);
-        refund.setText(Constants.OT_REFUND_MODULE_CODE);
-        refund.setTitle(Constants.OT_REFUND_MODULE_CODE);
-        refund.setOrderTotalCode(Constants.OT_REFUND_MODULE_CODE);
+        refund.setModule(CoreBusinessConstants.OT_REFUND_MODULE_CODE);
+        refund.setText(CoreBusinessConstants.OT_REFUND_MODULE_CODE);
+        refund.setTitle(CoreBusinessConstants.OT_REFUND_MODULE_CODE);
+        refund.setOrderTotalCode(CoreBusinessConstants.OT_REFUND_MODULE_CODE);
         refund.setOrderTotalType(OrderTotalType.REFUND);
         refund.setValue(amount);
         refund.setSortOrder(100);
@@ -544,7 +544,7 @@ public class PaymentServiceImpl implements PaymentService {
         //update ordertotal refund
         Set<OrderTotal> totals = order.getOrderTotal();
         for(OrderTotal total : totals) {
-        	if(total.getModule().equals(Constants.OT_TOTAL_MODULE_CODE)) {
+        	if(total.getModule().equals(CoreBusinessConstants.OT_TOTAL_MODULE_CODE)) {
         		total.setValue(orderTotal);
         	}
         }

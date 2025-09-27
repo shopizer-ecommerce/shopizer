@@ -10,7 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.LocalCacheManagerImpl;
@@ -98,8 +98,8 @@ public class CmsImageFileManagerImpl
       this.createDirectoryIfNorExist(merchantPath);
 
       // product path
-      nodePath.append(Constants.SLASH).append(productImage.getProduct().getSku())
-          .append(Constants.SLASH);
+      nodePath.append(CoreBusinessConstants.SLASH).append(productImage.getProduct().getSku())
+          .append(CoreBusinessConstants.SLASH);
       Path dirPath = Paths.get(nodePath.toString());
       this.createDirectoryIfNorExist(dirPath);
 
@@ -115,7 +115,7 @@ public class CmsImageFileManagerImpl
 
 
       // file creation
-      nodePath.append(Constants.SLASH).append(contentImage.getFileName());
+      nodePath.append(CoreBusinessConstants.SLASH).append(contentImage.getFileName());
 
 
       Path path = Paths.get(nodePath.toString());
@@ -167,7 +167,7 @@ public class CmsImageFileManagerImpl
 
 
       StringBuilder merchantPath = new StringBuilder();
-      merchantPath.append(buildRootPath()).append(Constants.SLASH).append(merchantStoreCode);
+      merchantPath.append(buildRootPath()).append(CoreBusinessConstants.SLASH).append(merchantStoreCode);
 
       Path path = Paths.get(merchantPath.toString());
 
@@ -190,13 +190,13 @@ public class CmsImageFileManagerImpl
 
 
       StringBuilder nodePath = new StringBuilder();
-      nodePath.append(buildRootPath()).append(Constants.SLASH)
-          .append(productImage.getProduct().getMerchantStore().getCode()).append(Constants.SLASH)
+      nodePath.append(buildRootPath()).append(CoreBusinessConstants.SLASH)
+          .append(productImage.getProduct().getMerchantStore().getCode()).append(CoreBusinessConstants.SLASH)
           .append(productImage.getProduct().getSku());
 
       // delete small
       StringBuilder smallPath = new StringBuilder(nodePath);
-      smallPath.append(Constants.SLASH).append(SMALL).append(Constants.SLASH)
+      smallPath.append(CoreBusinessConstants.SLASH).append(SMALL).append(CoreBusinessConstants.SLASH)
           .append(productImage.getProductImage());
 
 
@@ -206,7 +206,7 @@ public class CmsImageFileManagerImpl
 
       // delete large
       StringBuilder largePath = new StringBuilder(nodePath);
-      largePath.append(Constants.SLASH).append(LARGE).append(Constants.SLASH)
+      largePath.append(CoreBusinessConstants.SLASH).append(LARGE).append(CoreBusinessConstants.SLASH)
           .append(productImage.getProductImage());
 
 
@@ -228,8 +228,8 @@ public class CmsImageFileManagerImpl
 
 
       StringBuilder nodePath = new StringBuilder();
-      nodePath.append(buildRootPath()).append(Constants.SLASH)
-          .append(product.getMerchantStore().getCode()).append(Constants.SLASH)
+      nodePath.append(buildRootPath()).append(CoreBusinessConstants.SLASH)
+          .append(product.getMerchantStore().getCode()).append(CoreBusinessConstants.SLASH)
           .append(product.getSku());
 
 
@@ -275,8 +275,8 @@ public class CmsImageFileManagerImpl
 
 
   private String buildRootPath() {
-    return new StringBuilder().append(getRootName()).append(Constants.SLASH).append(ROOT_CONTAINER)
-        .append(Constants.SLASH).toString();
+    return new StringBuilder().append(getRootName()).append(CoreBusinessConstants.SLASH).append(ROOT_CONTAINER)
+        .append(CoreBusinessConstants.SLASH).toString();
 
   }
 

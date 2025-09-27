@@ -14,7 +14,7 @@ import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.availability.ProductAvailabilityService;
@@ -86,7 +86,7 @@ public class PersistableProductPriceMapper implements Mapper<PersistableProductP
 				if (!CollectionUtils.isEmpty(existing)) {
 					// find default availability
 					Optional<ProductAvailability> avail = existing.stream()
-							.filter(a -> a.getRegion() != null && a.getRegion().equals(Constants.ALL_REGIONS))
+							.filter(a -> a.getRegion() != null && a.getRegion().equals(CoreBusinessConstants.ALL_REGIONS))
 							.findAny();
 					if (avail.isPresent()) {
 						availability = avail.get();
@@ -117,7 +117,7 @@ public class PersistableProductPriceMapper implements Mapper<PersistableProductP
 
 				availability = new ProductAvailability();
 				availability.setProduct(product);
-				availability.setRegion(Constants.ALL_REGIONS);
+				availability.setRegion(CoreBusinessConstants.ALL_REGIONS);
 			}
 
 			destination.setProductAvailability(availability);

@@ -2,20 +2,19 @@ package com.salesmanager.shop.model.entity;
 
 import java.io.Serializable;
 
-public abstract class ShopEntity extends Entity implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String language;
-	
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	public String getLanguage() {
-		return language;
-	}
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+/**
+ * Abstract shop entity that includes language support.
+ *
+ * @lastUpdated 2025-09-08 By Kuntal
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+public abstract class ShopEntity extends Entity {
 
+    private String language;
 }

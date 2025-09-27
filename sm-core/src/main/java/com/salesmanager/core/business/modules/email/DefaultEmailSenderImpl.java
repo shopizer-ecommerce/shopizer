@@ -21,6 +21,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -34,10 +37,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
   @Inject
   private JavaMailSender mailSender;
 
-  private static final String CHARSET = "UTF-8";
   private EmailConfig emailConfig;
-
-  private final static String TEMPLATE_PATH = "templates/email";
 
   @Override
   public void send(Email email) throws Exception {
@@ -62,8 +62,8 @@ public class DefaultEmailSenderImpl implements EmailModule {
           impl.setPassword(emailConfig.getPassword());
 
           Properties prop = new Properties();
-          prop.put("mail.smtp.auth", emailConfig.isSmtpAuth());
-          prop.put("mail.smtp.starttls.enable", emailConfig.isStarttls());
+          prop.put("mail.smtp.auth", String.valueOf(emailConfig.isSmtpAuth()));
+          prop.put("mail.smtp.starttls.enable", String.valueOf(emailConfig.isStarttls()));
           impl.setJavaMailProperties(prop);
         }
 
@@ -83,7 +83,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart textPart = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template textTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(TEMPLATE_PATH).append("/").append(tmpl).toString());
+            new StringBuilder(CoreBusinessConstants.TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter textWriter = new StringWriter();
         try {
           textTemplate.process(templateTokens, textWriter);
@@ -94,7 +94,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
           public InputStream getInputStream() throws IOException {
             // return new StringBufferInputStream(textWriter
             // .toString());
-            return new ByteArrayInputStream(textWriter.toString().getBytes(CHARSET));
+            return new ByteArrayInputStream(textWriter.toString().getBytes(CoreBusinessConstants.CHARSET));
           }
 
           public OutputStream getOutputStream() throws IOException {
@@ -116,7 +116,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
         BodyPart htmlPage = new MimeBodyPart();
         freemarkerMailConfiguration.setClassForTemplateLoading(DefaultEmailSenderImpl.class, "/");
         Template htmlTemplate = freemarkerMailConfiguration.getTemplate(
-            new StringBuilder(TEMPLATE_PATH).append("/").append(tmpl).toString());
+            new StringBuilder(CoreBusinessConstants.TEMPLATE_PATH).append("/").append(tmpl).toString());
         final StringWriter htmlWriter = new StringWriter();
         try {
           htmlTemplate.process(templateTokens, htmlWriter);
@@ -127,7 +127,7 @@ public class DefaultEmailSenderImpl implements EmailModule {
           public InputStream getInputStream() throws IOException {
             // return new StringBufferInputStream(htmlWriter
             // .toString());
-            return new ByteArrayInputStream(textWriter.toString().getBytes(CHARSET));
+            return new ByteArrayInputStream(textWriter.toString().getBytes(CoreBusinessConstants.CHARSET));
           }
 
           public OutputStream getOutputStream() throws IOException {

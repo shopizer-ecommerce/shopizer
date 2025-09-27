@@ -30,7 +30,7 @@ import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.Storage.BucketField;
 import com.google.cloud.storage.Storage.BucketGetOption;
 import com.google.cloud.storage.StorageOptions;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.product.ProductAssetsManager;
@@ -290,9 +290,9 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   
   private String filePath(String merchant, String sku, FileContentType contentImage) {
       StringBuilder sb = new StringBuilder();
-      sb.append("products").append(Constants.SLASH);
+      sb.append("products").append(CoreBusinessConstants.SLASH);
       sb.append(merchant)
-      .append(Constants.SLASH).append(sku).append(Constants.SLASH);
+      .append(CoreBusinessConstants.SLASH).append(sku).append(CoreBusinessConstants.SLASH);
 
       // small large
       if (contentImage.name().equals(FileContentType.PRODUCT.name())) {
@@ -301,18 +301,18 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
         sb.append(LARGE);
       }
 
-      return sb.append(Constants.SLASH).toString();
+      return sb.append(CoreBusinessConstants.SLASH).toString();
     
   }
   
   private String filePath(String merchant, String sku, String size, String fileName) {
     StringBuilder sb = new StringBuilder();
-    sb.append("products").append(Constants.SLASH);
+    sb.append("products").append(CoreBusinessConstants.SLASH);
     sb.append(merchant)
-    .append(Constants.SLASH).append(sku).append(Constants.SLASH);
+    .append(CoreBusinessConstants.SLASH).append(sku).append(CoreBusinessConstants.SLASH);
     
     sb.append(size);
-    sb.append(Constants.SLASH).append(fileName);
+    sb.append(CoreBusinessConstants.SLASH).append(fileName);
 
     return sb.toString();
   

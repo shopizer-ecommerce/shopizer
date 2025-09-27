@@ -1,6 +1,6 @@
 package com.salesmanager.shop.application.config;
 
-import static com.salesmanager.core.business.constants.Constants.DEFAULT_STORE;
+import static com.salesmanager.core.business.constants.CoreBusinessConstants.DEFAULT_STORE;
 
 import java.util.Optional;
 

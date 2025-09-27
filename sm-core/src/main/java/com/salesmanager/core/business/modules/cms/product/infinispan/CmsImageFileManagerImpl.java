@@ -15,7 +15,7 @@ import org.infinispan.tree.Fqn;
 import org.infinispan.tree.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CMSManager;
 import com.salesmanager.core.business.modules.cms.impl.CacheManager;
@@ -112,8 +112,8 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
       // node
       StringBuilder nodePath = new StringBuilder();
       nodePath.append(productImage.getProduct().getMerchantStore().getCode())
-          .append(Constants.SLASH).append(productImage.getProduct().getSku())
-          .append(Constants.SLASH);
+          .append(CoreBusinessConstants.SLASH).append(productImage.getProduct().getSku())
+          .append(CoreBusinessConstants.SLASH);
 
 
       if (contentImage.getFileContentType().name().equals(FileContentType.PRODUCT.name())) {
@@ -260,7 +260,7 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
 
       StringBuilder nodePath = new StringBuilder();
       nodePath.append(productImage.getProduct().getMerchantStore().getCode())
-          .append(Constants.SLASH).append(productImage.getProduct().getSku());
+          .append(CoreBusinessConstants.SLASH).append(productImage.getProduct().getSku());
 
 
       Node<String, Object> productNode = this.getNode(nodePath.toString());
@@ -393,8 +393,8 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
 
       // SMALL by default
       StringBuilder nodePath = new StringBuilder();
-      nodePath.append(merchantStoreCode).append(Constants.SLASH).append(productCode)
-          .append(Constants.SLASH).append(size);
+      nodePath.append(merchantStoreCode).append(CoreBusinessConstants.SLASH).append(productCode)
+          .append(CoreBusinessConstants.SLASH).append(size);
 
       Node<String, Object> productNode = this.getNode(nodePath.toString());
 

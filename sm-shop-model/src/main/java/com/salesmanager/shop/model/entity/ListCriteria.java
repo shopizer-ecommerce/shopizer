@@ -1,30 +1,19 @@
 package com.salesmanager.shop.model.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Used for filtering lists
  * @author carlsamson
- *
+ * @lastUpdated 2025-09-07 By Kuntal
  */
-public class ListCriteria {
 
+@Getter
+@Setter
+@NoArgsConstructor
+public class ListCriteria {
 	private String name;
 	private String type;
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
 }

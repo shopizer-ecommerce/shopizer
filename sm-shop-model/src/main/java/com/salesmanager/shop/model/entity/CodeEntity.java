@@ -1,17 +1,16 @@
 package com.salesmanager.shop.model.entity;
 
-public class CodeEntity extends Entity {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String code;
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
+/**
+ * @lastUpdated 2025-09-07 By Kuntal 
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+public class CodeEntity extends Entity {
+private String code;
 
 }

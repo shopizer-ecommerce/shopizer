@@ -27,7 +27,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.utils.DataUtils;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
@@ -273,7 +273,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 			c.add(Calendar.DATE, 3);
 			Date newDate = c.getTime();
 			
-			SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+			SimpleDateFormat format = new SimpleDateFormat(CoreBusinessConstants.DEFAULT_DATE_FORMAT);
 			String shipDate = format.format(newDate);
 			
 

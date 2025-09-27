@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.stereotype.Component;
 
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
@@ -112,7 +112,7 @@ public class PersistableMerchantStorePopulator extends AbstractDataPopulator<Per
 				Currency c = currencyService.getByCode(source.getCurrency());
 				target.setCurrency(c);
 			} else {
-				target.setCurrency(currencyService.getByCode(Constants.DEFAULT_CURRENCY.getCurrencyCode()));
+				target.setCurrency(currencyService.getByCode(CoreBusinessConstants.DEFAULT_CURRENCY.getCurrencyCode()));
 			}
 			
 			List<String> languages = source.getSupportedLanguages();

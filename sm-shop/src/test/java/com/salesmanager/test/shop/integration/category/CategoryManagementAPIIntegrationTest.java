@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.constants.CoreBusinessConstants;
 import com.salesmanager.shop.application.ShopApplication;
 import com.salesmanager.shop.model.catalog.category.Category;
 import com.salesmanager.shop.model.catalog.category.CategoryDescription;
@@ -391,7 +391,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       json = writer.writeValueAsString(product1);
       entity = new HttpEntity<>(json, getHeader());
 
-      response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+      response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + CoreBusinessConstants.DEFAULT_STORE, entity, PersistableProduct.class);
       assertThat(response.getStatusCode(), is(CREATED));
             
       //create second item      
@@ -407,7 +407,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
       json = writer.writeValueAsString(product2);
       entity = new HttpEntity<>(json, getHeader());
 
-      response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + Constants.DEFAULT_STORE, entity, PersistableProduct.class);
+      response = testRestTemplate.postForEntity("/api/v1/private/product?store=" + CoreBusinessConstants.DEFAULT_STORE, entity, PersistableProduct.class);
       assertThat(response.getStatusCode(), is(CREATED));
       
       entity = new HttpEntity<>(getHeader());

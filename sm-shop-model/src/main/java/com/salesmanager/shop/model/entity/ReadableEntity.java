@@ -1,10 +1,18 @@
 package com.salesmanager.shop.model.entity;
 
-public class ReadableEntity extends Entity {
+import com.salesmanager.shop.model.constants.SmShopModelLiterals;
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * @lastUpdated 2025-09-08 By Kuntal
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+public class ReadableEntity extends Entity {
+	private static final long serialVersionUID = SmShopModelLiterals.SERIAL_VERSION_UID;
 
 }
