@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -18,7 +19,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 
 
-
+@Service
 public interface ProductService extends SalesManagerEntityService<Long, Product> {
 
 	Optional<Product> retrieveById(Long id, MerchantStore store);
