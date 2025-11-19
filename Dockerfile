@@ -39,7 +39,7 @@ COPY sm-shop/files /files
 EXPOSE 8080
 
 # Set Spring profile to docker (so it uses profiles/docker/database.properties)
-ENV SPRING_PROFILES_ACTIVE=docker
+ENV SPRING_PROFILES_ACTIVE=cloud
 
 CMD ["java", "-jar", "/opt/app/shopizer.jar"]
 
