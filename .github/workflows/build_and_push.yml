@@ -44,14 +44,14 @@ jobs:
           context: ./sm-shop
           platforms: linux/amd64
           push: true
-          tags: 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer:latest
+          tags: 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer-demo-backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Image pushed successfully
         run: |
           echo "✅ Docker image successfully built and pushed to ECR"
-          echo "Image: 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer:latest"
+          echo "Image: 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer-demo-backend:latest"
 
       - name: Deploy to ECS
         run: |
