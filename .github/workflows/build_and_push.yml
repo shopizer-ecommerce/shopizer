@@ -3,7 +3,7 @@ name: Build and Push Docker Image to ECR
 on:
   push:
     branches:
-      - main
+      - 3.2.7
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
@@ -41,7 +41,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./sm-shop
+          context: .                        # ← Change this
+          file: ./sm-shop/Dockerfile        # ← Add this
           platforms: linux/amd64
           push: true
           tags: 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer-demo-backend:latest
