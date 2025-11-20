@@ -39,7 +39,7 @@ COPY sm-shop/files /files
 EXPOSE 8080
 
 # Set Spring profile and Java options
-ENV SPRING_PROFILES_ACTIVE=cloud
+ENV SPRING_PROFILES_ACTIVE=local
 ENV JAVA_OPTS="-Xms512m -Xmx1024m"
 
 WORKDIR /
