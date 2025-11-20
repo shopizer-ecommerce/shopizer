@@ -1,13 +1,9 @@
 # Demo Dockerfile for CI/CD demonstration
-# Extends the official Shopizer image with custom modifications
+# Uses your custom Shopizer image from ECR
 
-FROM shopizerecomm/shopizer:latest
+FROM 550487074451.dkr.ecr.us-east-1.amazonaws.com/shopizer-demo-backend:latest
 
 USER root
-
-# Add custom configuration files that can be modified for CI/CD demo
-# This file can be changed to trigger CI/CD pipeline
-# COPY custom-config.properties /path/to/config/
 
 # Add a version file that shows when this was built (for demo purposes)
 RUN echo "Build Date: $(date)" > /build-info.txt && \
@@ -19,7 +15,4 @@ RUN echo "Build Date: $(date)" > /build-info.txt && \
 # Set environment variables if needed
 ENV SPRING_PROFILES_ACTIVE=cloud
 
-# You can add custom modules, configurations, or modifications here
-# For example: COPY custom-modules/*.jar /opt/app/
-
-# The rest inherits from the base image
+# The rest inherits from your custom image
