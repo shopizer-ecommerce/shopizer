@@ -136,6 +136,7 @@ Build application according to steps provided above
 
 Create new branch in your repository
 -------------------
+new changes
 
 	   $ git checkout -b branch-name
 
