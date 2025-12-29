@@ -121,6 +121,13 @@ public class OrderApi {
 
 		Customer customer = customerService.getById(id);
 
+		// [Security Fix] Ensure authenticated user can only access their own orders
+		com.salesmanager.shop.model.customer.ReadableCustomer authCustomer = customerFacade.getAuthenticatedCustomer();
+		if (authCustomer != null && !authCustomer.getId().equals(id)) {
+			response.sendError(403, "Access Denied: You can only view your own order history.");
+			return null;
+		}
+
 		if (customer == null) {
 			LOGGER.error("Customer is null for id " + id);
 			response.sendError(404, "Customer is null for id " + id);
