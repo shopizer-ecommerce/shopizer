@@ -99,7 +99,7 @@ public class ReadableProductPopulator extends
 
 	        if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
 	          for(ProductDescription desc : source.getDescriptions()) {
-                if(language != null && desc.getLanguage()!=null && desc.getLanguage().getId().intValue() == language.getId().intValue()) {
+                if(isMatchingLanguage(desc, language)) {
                     description = desc;
                     break;
                 } else {
@@ -506,6 +506,12 @@ public class ReadableProductPopulator extends
 	}
 
 
+
+	private boolean isMatchingLanguage(ProductDescription desc, Language language) {
+		return language != null
+				&& desc.getLanguage() != null
+				&& desc.getLanguage().getId().intValue() == language.getId().intValue();
+	}
 
 	private void populateProductImages(Product source, ReadableProduct target, MerchantStore store) {
 		Set<ProductImage> images = source.getImages();
