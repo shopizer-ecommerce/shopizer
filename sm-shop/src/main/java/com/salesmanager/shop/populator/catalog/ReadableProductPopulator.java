@@ -160,17 +160,17 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}*/
 			if(description!=null) {
-			    com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(description);
-				target.setDescription(tragetDescription);
+			    com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription = populateDescription(description);
+				target.setDescription(targetDescription);
 
 			}
 
 			if(source.getManufacturer()!=null) {
 				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next();
 				ReadableManufacturer manufacturerEntity = new ReadableManufacturer();
-				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
-				d.setName(manufacturer.getName());
-				manufacturerEntity.setDescription(d);
+				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription manufacturerDesc = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
+				manufacturerDesc.setName(manufacturer.getName());
+				manufacturerEntity.setDescription(manufacturerDesc);
 				manufacturerEntity.setId(source.getManufacturer().getId());
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
 				manufacturerEntity.setCode(source.getManufacturer().getCode());
@@ -707,25 +707,25 @@ public class ReadableProductPopulator extends
         return null;
       }
 
-      com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
-      tragetDescription.setFriendlyUrl(description.getSeUrl());
-      tragetDescription.setName(description.getName());
-      tragetDescription.setId(description.getId());
+      com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
+      targetDescription.setFriendlyUrl(description.getSeUrl());
+      targetDescription.setName(description.getName());
+      targetDescription.setId(description.getId());
       if(!StringUtils.isBlank(description.getMetatagTitle())) {
-          tragetDescription.setTitle(description.getMetatagTitle());
+          targetDescription.setTitle(description.getMetatagTitle());
       } else {
-          tragetDescription.setTitle(description.getName());
+          targetDescription.setTitle(description.getName());
       }
-      tragetDescription.setMetaDescription(description.getMetatagDescription());
-      tragetDescription.setDescription(description.getDescription());
-      tragetDescription.setHighlights(description.getProductHighlight());
-      tragetDescription.setLanguage(description.getLanguage().getCode());
-      tragetDescription.setKeyWords(description.getMetatagKeywords());
+      targetDescription.setMetaDescription(description.getMetatagDescription());
+      targetDescription.setDescription(description.getDescription());
+      targetDescription.setHighlights(description.getProductHighlight());
+      targetDescription.setLanguage(description.getLanguage().getCode());
+      targetDescription.setKeyWords(description.getMetatagKeywords());
 
       if(description.getLanguage() != null) {
-        tragetDescription.setLanguage(description.getLanguage().getCode());
+        targetDescription.setLanguage(description.getLanguage().getCode());
       }
-      return tragetDescription;
+      return targetDescription;
     }
 
 }
