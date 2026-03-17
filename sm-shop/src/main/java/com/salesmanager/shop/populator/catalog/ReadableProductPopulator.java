@@ -435,12 +435,19 @@ public class ReadableProductPopulator extends
 				//TODO validate region
 				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 					availability = a;
-					target.setQuantity(availability.getProductQuantity() == null ? 1:availability.getProductQuantity());
-					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax() == null ? 1:availability.getProductQuantityOrderMax());
-					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin()==null ? 1:availability.getProductQuantityOrderMin());
-					if(availability.getProductQuantity().intValue() > 0 && target.isAvailable()) {
-							target.setCanBePurchased(true);
-					}
+
+					int quantity = availability.getProductQuantity() != null
+							? availability.getProductQuantity() : 1;
+					int maxOrderQuantity = availability.getProductQuantityOrderMax() != null
+							? availability.getProductQuantityOrderMax() : 1;
+					int minOrderQuantity = availability.getProductQuantityOrderMin() != null
+							? availability.getProductQuantityOrderMin() : 1;
+					boolean canPurchase = quantity > 0 && target.isAvailable();
+
+					target.setQuantity(quantity);
+					target.setQuantityOrderMaximum(maxOrderQuantity);
+					target.setQuantityOrderMinimum(minOrderQuantity);
+					target.setCanBePurchased(canPurchase);
 				//}
 			}
 
