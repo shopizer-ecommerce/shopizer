@@ -50,6 +50,7 @@ import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.ProductDescriptionConverter;
 
 
 
@@ -103,7 +104,7 @@ public class ReadableProductPopulator extends
                     description = desc;
                     break;
                 } else {
-                  fulldescriptions.add(populateDescription(desc));
+                  fulldescriptions.add(ProductDescriptionConverter.toReadableDescription(desc));
                 }
               }
 	        }
@@ -160,7 +161,8 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}*/
 			if(description!=null) {
-			    com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription = populateDescription(description);
+			    com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription =
+		            ProductDescriptionConverter.toReadableDescription(description);
 				target.setDescription(targetDescription);
 
 			}
@@ -714,31 +716,5 @@ public class ReadableProductPopulator extends
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-    com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
-      if(description == null) {
-        return null;
-      }
-
-      com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
-      targetDescription.setFriendlyUrl(description.getSeUrl());
-      targetDescription.setName(description.getName());
-      targetDescription.setId(description.getId());
-      if(!StringUtils.isBlank(description.getMetatagTitle())) {
-          targetDescription.setTitle(description.getMetatagTitle());
-      } else {
-          targetDescription.setTitle(description.getName());
-      }
-      targetDescription.setMetaDescription(description.getMetatagDescription());
-      targetDescription.setDescription(description.getDescription());
-      targetDescription.setHighlights(description.getProductHighlight());
-      targetDescription.setLanguage(description.getLanguage().getCode());
-      targetDescription.setKeyWords(description.getMetatagKeywords());
-
-      if(description.getLanguage() != null) {
-        targetDescription.setLanguage(description.getLanguage().getCode());
-      }
-      return targetDescription;
-    }
 
 }
