@@ -130,6 +130,8 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Inject
 	private CustomerFacade customerFacade;
 	@Inject
+	private OrderShippingFacadeImpl orderShippingFacade;
+	@Inject
 	private PricingService pricingService;
 	@Inject
 	private ShoppingCartFacade shoppingCartFacade;
@@ -617,90 +619,6 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setShoppingCartItems(items);
 
 		return;
-	}
-
-	@Override
-	public ShippingQuote getShippingQuote(PersistableCustomer persistableCustomer, ShoppingCart cart, ShopOrder order,
-			MerchantStore store, Language language) throws Exception {
-
-		// create shipping products
-		List<ShippingProduct> shippingProducts = shoppingCartService.createShippingProduct(cart);
-
-		if (CollectionUtils.isEmpty(shippingProducts)) {
-			return null;// products are virtual
-		}
-
-		Customer customer = customerFacade.getCustomerModel(persistableCustomer, store, language);
-
-		Delivery delivery = new Delivery();
-
-		// adjust shipping and billing
-		if (order.isShipToBillingAdress() && !order.isShipToDeliveryAddress()) {
-
-			Billing billing = customer.getBilling();
-
-			String postalCode = billing.getPostalCode();
-			postalCode = validatePostalCode(postalCode);
-
-			delivery.setAddress(billing.getAddress());
-			delivery.setCompany(billing.getCompany());
-			delivery.setCity(billing.getCity());
-			delivery.setPostalCode(billing.getPostalCode());
-			delivery.setState(billing.getState());
-			delivery.setCountry(billing.getCountry());
-			delivery.setZone(billing.getZone());
-		} else {
-			delivery = customer.getDelivery();
-		}
-
-		ShippingQuote quote = shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts,
-				language);
-
-		return quote;
-
-	}
-
-	private String validatePostalCode(String postalCode) {
-
-		String patternString = "__";// this one is set in the template
-		if (postalCode.contains(patternString)) {
-			postalCode = null;
-		}
-		return postalCode;
-	}
-
-	@Override
-	public List<Country> getShipToCountry(MerchantStore store, Language language) throws Exception {
-
-		List<Country> shippingCountriesList = shippingService.getShipToCountryList(store, language);
-		return shippingCountriesList;
-
-	}
-
-	/**
-	 * ShippingSummary contains the subset of information of a ShippingQuote
-	 */
-	@Override
-	public ShippingSummary getShippingSummary(ShippingQuote quote, MerchantStore store, Language language) {
-
-		ShippingSummary summary = new ShippingSummary();
-		if (quote.getSelectedShippingOption() != null) {
-			summary.setShippingQuote(true);
-			summary.setFreeShipping(quote.isFreeShipping());
-			summary.setTaxOnShipping(quote.isApplyTaxOnShipping());
-			summary.setHandling(quote.getHandlingFees());
-			summary.setShipping(quote.getSelectedShippingOption().getOptionPrice());
-			summary.setShippingOption(quote.getSelectedShippingOption().getOptionName());
-			summary.setShippingModule(quote.getShippingModuleCode());
-			summary.setShippingOptionCode(quote.getSelectedShippingOption().getOptionCode());
-
-			if (quote.getDeliveryAddress() != null) {
-				summary.setDeliveryAddress(quote.getDeliveryAddress());
-			}
-
-		}
-
-		return summary;
 	}
 
 	@Override

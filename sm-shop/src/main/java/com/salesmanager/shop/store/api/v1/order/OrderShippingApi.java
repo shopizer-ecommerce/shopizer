@@ -35,6 +35,7 @@ import com.salesmanager.shop.model.customer.address.AddressLocation;
 import com.salesmanager.shop.model.order.shipping.ReadableShippingSummary;
 import com.salesmanager.shop.populator.order.ReadableShippingSummaryPopulator;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.order.facade.OrderShippingFacadeImpl;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.utils.LabelUtils;
 
@@ -57,7 +58,7 @@ public class OrderShippingApi {
 
   @Inject private CustomerService customerService;
 
-  @Inject private OrderFacade orderFacade;
+  @Inject private OrderShippingFacadeImpl orderShippingFacade;
 
   @Inject private ShoppingCartFacade shoppingCartFacade;
 
@@ -117,9 +118,9 @@ public class OrderShippingApi {
         response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
       }
 
-      ShippingQuote quote = orderFacade.getShippingQuote(customer, cart, merchantStore, language);
+      ShippingQuote quote = orderShippingFacade.getShippingQuote(customer, cart, merchantStore, language);
 
-      ShippingSummary summary = orderFacade.getShippingSummary(quote, merchantStore, language);
+      ShippingSummary summary = orderShippingFacade.getShippingSummary(quote, merchantStore, language);
 
       ReadableShippingSummary shippingSummary = new ReadableShippingSummary();
       ReadableShippingSummaryPopulator populator = new ReadableShippingSummaryPopulator();
@@ -229,9 +230,9 @@ public class OrderShippingApi {
       temp.setAnonymous(true);
       temp.setDelivery(addr);
       
-      ShippingQuote quote = orderFacade.getShippingQuote(temp, cart, merchantStore, language);
+      ShippingQuote quote = orderShippingFacade.getShippingQuote(temp, cart, merchantStore, language);
 
-      ShippingSummary summary = orderFacade.getShippingSummary(quote, merchantStore, language);
+      ShippingSummary summary = orderShippingFacade.getShippingSummary(quote, merchantStore, language);
 
       ReadableShippingSummary shippingSummary = new ReadableShippingSummary();
       ReadableShippingSummaryPopulator populator = new ReadableShippingSummaryPopulator();
