@@ -151,7 +151,9 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		Set<ProductImage> images = source.getImages();
 		if(CollectionUtils.isNotEmpty(images)) {
 
-			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store)).collect(Collectors.toList());
+			List<ReadableImage> imageList = images.stream()
+				.map(i -> imageUtils.convertToReadableImage(store, source.getSku(), i))
+				.collect(Collectors.toList());
 			returnDestination.setImages(imageList);
 		}
 		
@@ -181,31 +183,6 @@ public class ReadableProductDefinitionMapper implements Mapper<Product, Readable
 		return returnDestination;
 	}
 	
-	private ReadableImage convertImage(Product product, ProductImage image, MerchantStore store) {
-		ReadableImage prdImage = new ReadableImage();
-		prdImage.setImageName(image.getProductImage());
-		prdImage.setDefaultImage(image.isDefaultImage());
-
-		StringBuilder imgPath = new StringBuilder();
-		imgPath.append(imageUtils.getContextPath()).append(imageUtils.buildProductImageUtils(store, product.getSku(), image.getProductImage()));
-
-		prdImage.setImageUrl(imgPath.toString());
-		prdImage.setId(image.getId());
-		prdImage.setImageType(image.getImageType());
-		if(image.getProductImageUrl()!=null){
-			prdImage.setExternalUrl(image.getProductImageUrl());
-		}
-		if(image.getImageType()==1 && image.getProductImageUrl()!=null) {//video
-			prdImage.setVideoUrl(image.getProductImageUrl());
-		}
-		
-		if(prdImage.isDefaultImage()) {
-			prdImage.setDefaultImage(true);
-		}
-		
-		return prdImage;
-	}
-
 	private com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
 		if (description == null) {
 			return null;

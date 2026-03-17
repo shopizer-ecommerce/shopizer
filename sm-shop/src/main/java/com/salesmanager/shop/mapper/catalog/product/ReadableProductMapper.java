@@ -151,10 +151,12 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		}
 
 		// images
+		// TODO product variant image
 		Set<ProductImage> images = source.getImages();
 		if (CollectionUtils.isNotEmpty(images)) {
 
-			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store))
+			List<ReadableImage> imageList = images.stream()
+					.map(i -> imageUtils.convertToReadableImage(store, source.getSku(), i))
 					.collect(Collectors.toList());
 			destination.setImages(imageList);
 		}
@@ -466,33 +468,6 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		destination.setSortOrder(source.getSortOrder());
 
 		return destination;
-	}
-
-	private ReadableImage convertImage(Product product, ProductImage image, MerchantStore store) {
-		ReadableImage prdImage = new ReadableImage();
-		prdImage.setImageName(image.getProductImage());
-		prdImage.setDefaultImage(image.isDefaultImage());
-
-		// TODO product variant image
-		StringBuilder imgPath = new StringBuilder();
-		imgPath.append(imageUtils.getContextPath())
-				.append(imageUtils.buildProductImageUtils(store, product.getSku(), image.getProductImage()));
-
-		prdImage.setImageUrl(imgPath.toString());
-		prdImage.setId(image.getId());
-		prdImage.setImageType(image.getImageType());
-		if (image.getProductImageUrl() != null) {
-			prdImage.setExternalUrl(image.getProductImageUrl());
-		}
-		if (image.getImageType() == 1 && image.getProductImageUrl() != null) {// video
-			prdImage.setVideoUrl(image.getProductImageUrl());
-		}
-
-		if (prdImage.isDefaultImage()) {
-			prdImage.setDefaultImage(true);
-		}
-
-		return prdImage;
 	}
 
 	private com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(
