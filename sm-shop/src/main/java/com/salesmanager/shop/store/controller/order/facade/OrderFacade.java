@@ -48,35 +48,11 @@ public interface OrderFacade {
 
 	/** creates a working copy of customer when the user is anonymous **/
 	Customer initEmptyCustomer(MerchantStore store);
-	List<Country> getShipToCountry(MerchantStore store, Language language)
-			throws Exception;
-
-	/**
-	 * Get a ShippingQuote based on merchant configuration and items to be shipped
-	 * @param cart
-	 * @param order
-	 * @param store
-	 * @param language
-	 * @return
-	 * @throws Exception
-	 */
-	ShippingQuote getShippingQuote(PersistableCustomer customer, ShoppingCart cart, ShopOrder order,
-			MerchantStore store, Language language) throws Exception;
-
 	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart, com.salesmanager.shop.model.order.v0.PersistableOrder order,
 			MerchantStore store, Language language) throws Exception;
 
 	ShippingQuote getShippingQuote(Customer customer, ShoppingCart cart,
 			MerchantStore store, Language language) throws Exception;
-
-	/**
-	 * Creates a ShippingSummary object for OrderTotal calculation based on a ShippingQuote
-	 * @param quote
-	 * @param store
-	 * @param language
-	 * @return
-	 */
-	ShippingSummary getShippingSummary(ShippingQuote quote, MerchantStore store, Language language);
 
 	/**
 	 * Validates an order submitted from the web application

@@ -1,9 +1,11 @@
 package com.salesmanager.shop.utils;
 
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 
 public interface ImageFilePath {
 	
@@ -108,5 +110,6 @@ public interface ImageFilePath {
 	 */
 	public String buildStaticContentFilePath(MerchantStore store, String fileName);
 
+	public ReadableImage convertToReadableImage(MerchantStore store, String sku, ProductImage image);
 
 }

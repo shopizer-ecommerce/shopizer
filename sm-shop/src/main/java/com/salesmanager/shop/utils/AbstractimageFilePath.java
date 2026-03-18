@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.image.ProductImage;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
+import com.salesmanager.shop.model.catalog.product.ReadableImage;
 import com.salesmanager.core.model.content.FileContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.shop.constants.Constants;
@@ -169,10 +171,29 @@ public abstract class AbstractimageFilePath implements ImageFilePath {
 		}
 		return sb.toString();
 	}
-	
 
-	
-	
+	public ReadableImage convertToReadableImage(MerchantStore store, String sku, ProductImage image) {
+		ReadableImage prdImage = new ReadableImage();
+		prdImage.setImageName(image.getProductImage());
+		prdImage.setDefaultImage(image.isDefaultImage());
 
+		StringBuilder imgPath = new StringBuilder();
+		imgPath.append(getContextPath())
+				.append(buildProductImageUtils(store, sku, image.getProductImage()));
+
+		prdImage.setImageUrl(imgPath.toString());
+		prdImage.setId(image.getId());
+		prdImage.setImageType(image.getImageType());
+		if (image.getProductImageUrl() != null) {
+			prdImage.setExternalUrl(image.getProductImageUrl());
+		}
+		if (image.getImageType() == 1 && image.getProductImageUrl() != null) {
+			prdImage.setVideoUrl(image.getProductImageUrl());
+		}
+		if (prdImage.isDefaultImage()) {
+			prdImage.setDefaultImage(true);
+		}
+		return prdImage;
+	}
 
 }

@@ -50,6 +50,7 @@ import com.salesmanager.shop.model.catalog.product.type.ProductTypeDescription;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.ProductDescriptionConverter;
 
 
 
@@ -99,11 +100,11 @@ public class ReadableProductPopulator extends
 
 	        if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
 	          for(ProductDescription desc : source.getDescriptions()) {
-                if(language != null && desc.getLanguage()!=null && desc.getLanguage().getId().intValue() == language.getId().intValue()) {
+                if(isMatchingLanguage(desc, language)) {
                     description = desc;
                     break;
                 } else {
-                  fulldescriptions.add(populateDescription(desc));
+                  fulldescriptions.add(ProductDescriptionConverter.toReadableDescription(desc));
                 }
               }
 	        }
@@ -138,24 +139,7 @@ public class ReadableProductPopulator extends
 			}
 
 			if(source.getOwner() != null) {
-				RentalOwner owner = new RentalOwner();
-				owner.setId(source.getOwner().getId());
-				owner.setEmailAddress(source.getOwner().getEmailAddress());
-				owner.setFirstName(source.getOwner().getBilling().getFirstName());
-				owner.setLastName(source.getOwner().getBilling().getLastName());
-				com.salesmanager.shop.model.customer.address.Address address = new com.salesmanager.shop.model.customer.address.Address();
-				address.setAddress(source.getOwner().getBilling().getAddress());
-				address.setBillingAddress(true);
-				address.setCity(source.getOwner().getBilling().getCity());
-				address.setCompany(source.getOwner().getBilling().getCompany());
-				address.setCountry(source.getOwner().getBilling().getCountry().getIsoCode());
-				address.setZone(source.getOwner().getBilling().getZone().getCode());
-				address.setLatitude(source.getOwner().getBilling().getLatitude());
-				address.setLongitude(source.getOwner().getBilling().getLongitude());
-				address.setPhone(source.getOwner().getBilling().getTelephone());
-				address.setPostalCode(source.getOwner().getBilling().getPostalCode());
-				owner.setAddress(address);
-				target.setOwner(owner);
+				target.setOwner(populateRentalOwner(source));
 			}
 
 
@@ -177,17 +161,18 @@ public class ReadableProductPopulator extends
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}*/
 			if(description!=null) {
-			    com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(description);
-				target.setDescription(tragetDescription);
+			    com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription =
+		            ProductDescriptionConverter.toReadableDescription(description);
+				target.setDescription(targetDescription);
 
 			}
 
 			if(source.getManufacturer()!=null) {
 				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next();
 				ReadableManufacturer manufacturerEntity = new ReadableManufacturer();
-				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription d = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
-				d.setName(manufacturer.getName());
-				manufacturerEntity.setDescription(d);
+				com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription manufacturerDesc = new com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription();
+				manufacturerDesc.setName(manufacturer.getName());
+				manufacturerEntity.setDescription(manufacturerDesc);
 				manufacturerEntity.setId(source.getManufacturer().getId());
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
 				manufacturerEntity.setCode(source.getManufacturer().getCode());
@@ -202,51 +187,7 @@ public class ReadableProductPopulator extends
 			  target.setType(type);
 			}*/
 
-			/**
-			 * TODO use ProductImageMapper
-			 */
-			Set<ProductImage> images = source.getImages();
-			if(images!=null && images.size()>0) {
-				List<ReadableImage> imageList = new ArrayList<ReadableImage>();
-
-				String contextPath = imageUtils.getContextPath();
-
-				for(ProductImage img : images) {
-					ReadableImage prdImage = new ReadableImage();
-					prdImage.setImageName(img.getProductImage());
-					prdImage.setDefaultImage(img.isDefaultImage());
-					prdImage.setOrder(img.getSortOrder() != null ? img.getSortOrder().intValue() : 0);
-
-					if (img.getImageType() == 1 && img.getProductImageUrl()!=null) {
-						prdImage.setImageUrl(img.getProductImageUrl());
-					} else {
-						StringBuilder imgPath = new StringBuilder();
-						imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage()));
-
-						prdImage.setImageUrl(imgPath.toString());
-					}
-					prdImage.setId(img.getId());
-					prdImage.setImageType(img.getImageType());
-					if(img.getProductImageUrl()!=null){
-						prdImage.setExternalUrl(img.getProductImageUrl());
-					}
-					if(img.getImageType()==1 && img.getProductImageUrl()!=null) {//video
-						prdImage.setVideoUrl(img.getProductImageUrl());
-					}
-
-					if(prdImage.isDefaultImage()) {
-						target.setImage(prdImage);
-					}
-
-					imageList.add(prdImage);
-				}
-				imageList = imageList.stream()
-				.sorted(Comparator.comparingInt(ReadableImage::getOrder))
-				.collect(Collectors.toList());
-				
-				target
-				.setImages(imageList);
-			}
+			populateProductImages(source, target, store);
 
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
 
@@ -496,12 +437,19 @@ public class ReadableProductPopulator extends
 				//TODO validate region
 				//if(availability.getRegion().equals(Constants.ALL_REGIONS)) {//TODO REL 2.1 accept a region
 					availability = a;
-					target.setQuantity(availability.getProductQuantity() == null ? 1:availability.getProductQuantity());
-					target.setQuantityOrderMaximum(availability.getProductQuantityOrderMax() == null ? 1:availability.getProductQuantityOrderMax());
-					target.setQuantityOrderMinimum(availability.getProductQuantityOrderMin()==null ? 1:availability.getProductQuantityOrderMin());
-					if(availability.getProductQuantity().intValue() > 0 && target.isAvailable()) {
-							target.setCanBePurchased(true);
-					}
+
+					int quantity = availability.getProductQuantity() != null
+							? availability.getProductQuantity() : 1;
+					int maxOrderQuantity = availability.getProductQuantityOrderMax() != null
+							? availability.getProductQuantityOrderMax() : 1;
+					int minOrderQuantity = availability.getProductQuantityOrderMin() != null
+							? availability.getProductQuantityOrderMin() : 1;
+					boolean canPurchase = quantity > 0 && target.isAvailable();
+
+					target.setQuantity(quantity);
+					target.setQuantityOrderMaximum(maxOrderQuantity);
+					target.setQuantityOrderMinimum(minOrderQuantity);
+					target.setCanBePurchased(canPurchase);
 				//}
 			}
 
@@ -567,6 +515,75 @@ public class ReadableProductPopulator extends
 	}
 
 
+
+	private boolean isMatchingLanguage(ProductDescription desc, Language language) {
+		return language != null
+				&& desc.getLanguage() != null
+				&& desc.getLanguage().getId().intValue() == language.getId().intValue();
+	}
+
+	private void populateProductImages(Product source, ReadableProduct target, MerchantStore store) {
+		Set<ProductImage> images = source.getImages();
+		if(images == null || images.isEmpty()) {
+			return;
+		}
+		List<ReadableImage> imageList = new ArrayList<ReadableImage>();
+		String contextPath = imageUtils.getContextPath();
+
+		for(ProductImage img : images) {
+			ReadableImage prdImage = new ReadableImage();
+			prdImage.setImageName(img.getProductImage());
+			prdImage.setDefaultImage(img.isDefaultImage());
+			prdImage.setOrder(img.getSortOrder() != null ? img.getSortOrder().intValue() : 0);
+
+			if (img.getImageType() == 1 && img.getProductImageUrl() != null) {
+				prdImage.setImageUrl(img.getProductImageUrl());
+			} else {
+				StringBuilder imgPath = new StringBuilder();
+				imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage()));
+				prdImage.setImageUrl(imgPath.toString());
+			}
+			prdImage.setId(img.getId());
+			prdImage.setImageType(img.getImageType());
+			if(img.getProductImageUrl() != null) {
+				prdImage.setExternalUrl(img.getProductImageUrl());
+			}
+			if(img.getImageType() == 1 && img.getProductImageUrl() != null) {
+				prdImage.setVideoUrl(img.getProductImageUrl());
+			}
+			if(prdImage.isDefaultImage()) {
+				target.setImage(prdImage);
+			}
+			imageList.add(prdImage);
+		}
+		imageList = imageList.stream()
+				.sorted(Comparator.comparingInt(ReadableImage::getOrder))
+				.collect(Collectors.toList());
+		target.setImages(imageList);
+	}
+
+	private RentalOwner populateRentalOwner(Product source) {
+		RentalOwner owner = new RentalOwner();
+		owner.setId(source.getOwner().getId());
+		owner.setEmailAddress(source.getOwner().getEmailAddress());
+		owner.setFirstName(source.getOwner().getBilling().getFirstName());
+		owner.setLastName(source.getOwner().getBilling().getLastName());
+
+		com.salesmanager.shop.model.customer.address.Address address =
+				new com.salesmanager.shop.model.customer.address.Address();
+		address.setAddress(source.getOwner().getBilling().getAddress());
+		address.setBillingAddress(true);
+		address.setCity(source.getOwner().getBilling().getCity());
+		address.setCompany(source.getOwner().getBilling().getCompany());
+		address.setCountry(source.getOwner().getBilling().getCountry().getIsoCode());
+		address.setZone(source.getOwner().getBilling().getZone().getCode());
+		address.setLatitude(source.getOwner().getBilling().getLatitude());
+		address.setLongitude(source.getOwner().getBilling().getLongitude());
+		address.setPhone(source.getOwner().getBilling().getTelephone());
+		address.setPostalCode(source.getOwner().getBilling().getPostalCode());
+		owner.setAddress(address);
+		return owner;
+	}
 
 	private ReadableProductOption createOption(ProductAttribute productAttribute, Language language) {
 
@@ -699,31 +716,5 @@ public class ReadableProductPopulator extends
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-    com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(ProductDescription description) {
-      if(description == null) {
-        return null;
-      }
-
-      com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
-      tragetDescription.setFriendlyUrl(description.getSeUrl());
-      tragetDescription.setName(description.getName());
-      tragetDescription.setId(description.getId());
-      if(!StringUtils.isBlank(description.getMetatagTitle())) {
-          tragetDescription.setTitle(description.getMetatagTitle());
-      } else {
-          tragetDescription.setTitle(description.getName());
-      }
-      tragetDescription.setMetaDescription(description.getMetatagDescription());
-      tragetDescription.setDescription(description.getDescription());
-      tragetDescription.setHighlights(description.getProductHighlight());
-      tragetDescription.setLanguage(description.getLanguage().getCode());
-      tragetDescription.setKeyWords(description.getMetatagKeywords());
-
-      if(description.getLanguage() != null) {
-        tragetDescription.setLanguage(description.getLanguage().getCode());
-      }
-      return tragetDescription;
-    }
 
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -101,6 +102,10 @@ import com.salesmanager.shop.populator.order.ShoppingCartItemPopulator;
 import com.salesmanager.shop.populator.order.transaction.PersistablePaymentPopulator;
 import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.controller.order.facade.payment.CreditCardPaymentProcessor;
+import com.salesmanager.shop.store.controller.order.facade.payment.DefaultPaymentProcessor;
+import com.salesmanager.shop.store.controller.order.facade.payment.PaymentTypeProcessor;
+import com.salesmanager.shop.store.controller.order.facade.payment.PaypalPaymentProcessor;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
@@ -129,6 +134,8 @@ public class OrderFacadeImpl implements OrderFacade {
 	private ShippingService shippingService;
 	@Inject
 	private CustomerFacade customerFacade;
+	@Inject
+	private OrderShippingFacadeImpl orderShippingFacade;
 	@Inject
 	private PricingService pricingService;
 	@Inject
@@ -469,79 +476,13 @@ public class OrderFacadeImpl implements OrderFacade {
 				paymentMetaData.put("paymentToken", paymentToken);
 			}
 
-			if (PaymentType.CREDITCARD.name().equals(paymentType)) {
+			Map<PaymentType, PaymentTypeProcessor> processors = new EnumMap<>(PaymentType.class);
+			processors.put(PaymentType.CREDITCARD, new CreditCardPaymentProcessor());
+			processors.put(PaymentType.PAYPAL, new PaypalPaymentProcessor());
 
-				payment = new CreditCardPayment();
-				((CreditCardPayment) payment).setCardOwner(order.getPayment().get("creditcard_card_holder"));
-				((CreditCardPayment) payment)
-						.setCredidCardValidationNumber(order.getPayment().get("creditcard_card_cvv"));
-				((CreditCardPayment) payment).setCreditCardNumber(order.getPayment().get("creditcard_card_number"));
-				((CreditCardPayment) payment)
-						.setExpirationMonth(order.getPayment().get("creditcard_card_expirationmonth"));
-				((CreditCardPayment) payment)
-						.setExpirationYear(order.getPayment().get("creditcard_card_expirationyear"));
-
-				Map<String, String> paymentMetaData = order.getPayment();
-				payment.setPaymentMetaData(paymentMetaData);
-				payment.setPaymentType(PaymentType.valueOf(paymentType));
-				payment.setAmount(order.getOrderTotalSummary().getTotal());
-				payment.setModuleName(order.getPaymentModule());
-				payment.setCurrency(modelOrder.getCurrency());
-
-				CreditCardType creditCardType = null;
-				String cardType = order.getPayment().get("creditcard_card_type");
-
-				// supported credit cards
-				if (CreditCardType.AMEX.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.AMEX;
-				} else if (CreditCardType.VISA.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.VISA;
-				} else if (CreditCardType.MASTERCARD.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.MASTERCARD;
-				} else if (CreditCardType.DINERS.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.DINERS;
-				} else if (CreditCardType.DISCOVERY.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.DISCOVERY;
-				}
-
-				((CreditCardPayment) payment).setCreditCard(creditCardType);
-
-				if (creditCardType != null) {
-
-					CreditCard cc = new CreditCard();
-					cc.setCardType(creditCardType);
-					cc.setCcCvv(((CreditCardPayment) payment).getCredidCardValidationNumber());
-					cc.setCcOwner(((CreditCardPayment) payment).getCardOwner());
-					cc.setCcExpires(((CreditCardPayment) payment).getExpirationMonth() + "-"
-							+ ((CreditCardPayment) payment).getExpirationYear());
-
-					// hash credit card number
-					if (!StringUtils.isBlank(cc.getCcNumber())) {
-						String maskedNumber = CreditCardUtils
-								.maskCardNumber(order.getPayment().get("creditcard_card_number"));
-						cc.setCcNumber(maskedNumber);
-						modelOrder.setCreditCard(cc);
-					}
-
-				}
-
-			}
-
-			if (PaymentType.PAYPAL.name().equals(paymentType)) {
-
-				// check for previous transaction
-				if (transaction == null) {
-					throw new ServiceException("payment.error");
-				}
-
-				payment = new com.salesmanager.core.model.payments.PaypalPayment();
-
-				((com.salesmanager.core.model.payments.PaypalPayment) payment)
-						.setPayerId(transaction.getTransactionDetails().get("PAYERID"));
-				((com.salesmanager.core.model.payments.PaypalPayment) payment)
-						.setPaymentToken(transaction.getTransactionDetails().get("TOKEN"));
-
-			}
+			PaymentTypeProcessor processor = processors.getOrDefault(
+					PaymentType.valueOf(paymentType), new DefaultPaymentProcessor());
+			payment = processor.processPayment(order, modelOrder, payment, transaction);
 
 			modelOrder.setShoppingCartCode(shoppingCartCode);
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
@@ -617,90 +558,6 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setShoppingCartItems(items);
 
 		return;
-	}
-
-	@Override
-	public ShippingQuote getShippingQuote(PersistableCustomer persistableCustomer, ShoppingCart cart, ShopOrder order,
-			MerchantStore store, Language language) throws Exception {
-
-		// create shipping products
-		List<ShippingProduct> shippingProducts = shoppingCartService.createShippingProduct(cart);
-
-		if (CollectionUtils.isEmpty(shippingProducts)) {
-			return null;// products are virtual
-		}
-
-		Customer customer = customerFacade.getCustomerModel(persistableCustomer, store, language);
-
-		Delivery delivery = new Delivery();
-
-		// adjust shipping and billing
-		if (order.isShipToBillingAdress() && !order.isShipToDeliveryAddress()) {
-
-			Billing billing = customer.getBilling();
-
-			String postalCode = billing.getPostalCode();
-			postalCode = validatePostalCode(postalCode);
-
-			delivery.setAddress(billing.getAddress());
-			delivery.setCompany(billing.getCompany());
-			delivery.setCity(billing.getCity());
-			delivery.setPostalCode(billing.getPostalCode());
-			delivery.setState(billing.getState());
-			delivery.setCountry(billing.getCountry());
-			delivery.setZone(billing.getZone());
-		} else {
-			delivery = customer.getDelivery();
-		}
-
-		ShippingQuote quote = shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts,
-				language);
-
-		return quote;
-
-	}
-
-	private String validatePostalCode(String postalCode) {
-
-		String patternString = "__";// this one is set in the template
-		if (postalCode.contains(patternString)) {
-			postalCode = null;
-		}
-		return postalCode;
-	}
-
-	@Override
-	public List<Country> getShipToCountry(MerchantStore store, Language language) throws Exception {
-
-		List<Country> shippingCountriesList = shippingService.getShipToCountryList(store, language);
-		return shippingCountriesList;
-
-	}
-
-	/**
-	 * ShippingSummary contains the subset of information of a ShippingQuote
-	 */
-	@Override
-	public ShippingSummary getShippingSummary(ShippingQuote quote, MerchantStore store, Language language) {
-
-		ShippingSummary summary = new ShippingSummary();
-		if (quote.getSelectedShippingOption() != null) {
-			summary.setShippingQuote(true);
-			summary.setFreeShipping(quote.isFreeShipping());
-			summary.setTaxOnShipping(quote.isApplyTaxOnShipping());
-			summary.setHandling(quote.getHandlingFees());
-			summary.setShipping(quote.getSelectedShippingOption().getOptionPrice());
-			summary.setShippingOption(quote.getSelectedShippingOption().getOptionName());
-			summary.setShippingModule(quote.getShippingModuleCode());
-			summary.setShippingOptionCode(quote.getSelectedShippingOption().getOptionCode());
-
-			if (quote.getDeliveryAddress() != null) {
-				summary.setDeliveryAddress(quote.getDeliveryAddress());
-			}
-
-		}
-
-		return summary;
 	}
 
 	@Override

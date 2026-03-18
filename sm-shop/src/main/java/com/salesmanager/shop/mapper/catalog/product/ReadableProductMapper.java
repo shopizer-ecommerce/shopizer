@@ -55,6 +55,7 @@ import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
 import com.salesmanager.shop.store.api.exception.ConversionRuntimeException;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.ImageFilePath;
+import com.salesmanager.shop.utils.ProductDescriptionConverter;
 
 /**
  * Works for product v2 model
@@ -151,10 +152,12 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		}
 
 		// images
+		// TODO product variant image
 		Set<ProductImage> images = source.getImages();
 		if (CollectionUtils.isNotEmpty(images)) {
 
-			List<ReadableImage> imageList = images.stream().map(i -> this.convertImage(source, i, store))
+			List<ReadableImage> imageList = images.stream()
+					.map(i -> imageUtils.convertToReadableImage(store, source.getSku(), i))
 					.collect(Collectors.toList());
 			destination.setImages(imageList);
 		}
@@ -433,9 +436,9 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		}
 
 		if (description != null) {
-			com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = populateDescription(
-					description);
-			destination.setDescription(tragetDescription);
+			com.salesmanager.shop.model.catalog.product.ProductDescription targetDescription =
+					ProductDescriptionConverter.toReadableDescription(description);
+			destination.setDescription(targetDescription);
 
 		}
 
@@ -466,60 +469,6 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 		destination.setSortOrder(source.getSortOrder());
 
 		return destination;
-	}
-
-	private ReadableImage convertImage(Product product, ProductImage image, MerchantStore store) {
-		ReadableImage prdImage = new ReadableImage();
-		prdImage.setImageName(image.getProductImage());
-		prdImage.setDefaultImage(image.isDefaultImage());
-
-		// TODO product variant image
-		StringBuilder imgPath = new StringBuilder();
-		imgPath.append(imageUtils.getContextPath())
-				.append(imageUtils.buildProductImageUtils(store, product.getSku(), image.getProductImage()));
-
-		prdImage.setImageUrl(imgPath.toString());
-		prdImage.setId(image.getId());
-		prdImage.setImageType(image.getImageType());
-		if (image.getProductImageUrl() != null) {
-			prdImage.setExternalUrl(image.getProductImageUrl());
-		}
-		if (image.getImageType() == 1 && image.getProductImageUrl() != null) {// video
-			prdImage.setVideoUrl(image.getProductImageUrl());
-		}
-
-		if (prdImage.isDefaultImage()) {
-			prdImage.setDefaultImage(true);
-		}
-
-		return prdImage;
-	}
-
-	private com.salesmanager.shop.model.catalog.product.ProductDescription populateDescription(
-			ProductDescription description) {
-		if (description == null) {
-			return null;
-		}
-
-		com.salesmanager.shop.model.catalog.product.ProductDescription tragetDescription = new com.salesmanager.shop.model.catalog.product.ProductDescription();
-		tragetDescription.setFriendlyUrl(description.getSeUrl());
-		tragetDescription.setName(description.getName());
-		tragetDescription.setId(description.getId());
-		if (!StringUtils.isBlank(description.getMetatagTitle())) {
-			tragetDescription.setTitle(description.getMetatagTitle());
-		} else {
-			tragetDescription.setTitle(description.getName());
-		}
-		tragetDescription.setMetaDescription(description.getMetatagDescription());
-		tragetDescription.setDescription(description.getDescription());
-		tragetDescription.setHighlights(description.getProductHighlight());
-		tragetDescription.setLanguage(description.getLanguage().getCode());
-		tragetDescription.setKeyWords(description.getMetatagKeywords());
-
-		if (description.getLanguage() != null) {
-			tragetDescription.setLanguage(description.getLanguage().getCode());
-		}
-		return tragetDescription;
 	}
 
 	private ReadableProductProperty createProperty(ProductAttribute productAttribute, Language language) {
