@@ -43,11 +43,26 @@ public class RecentlyViewedApi {
 
     private Long resolveCustomerId(HttpServletRequest request) {
         try {
+            // First try Spring Security principal (works for /auth/* and /private/* paths)
             if (request.getUserPrincipal() != null) {
-                String userName = request.getUserPrincipal().getName();
-                Customer customer = customerService.getByNick(userName);
-                if (customer != null) {
-                    return customer.getId();
+                Customer customer = customerService.getByNick(request.getUserPrincipal().getName());
+                if (customer != null) return customer.getId();
+            }
+            // Fallback: parse JWT from Authorization header directly (for /customer/* paths)
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+                // decode payload (middle part of JWT)
+                String payload = token.split("\\.")[1];
+                // add padding
+                int pad = payload.length() % 4;
+                if (pad > 0) payload += "=".repeat(4 - pad);
+                String json = new String(java.util.Base64.getDecoder().decode(payload));
+                // extract sub claim
+                String sub = json.replaceAll(".*\"sub\":\"([^\"]+)\".*", "$1");
+                if (!sub.equals(json)) { // replacement worked
+                    Customer customer = customerService.getByNick(sub);
+                    if (customer != null) return customer.getId();
                 }
             }
         } catch (Exception e) {
