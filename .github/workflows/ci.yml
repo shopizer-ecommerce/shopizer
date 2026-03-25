@@ -7,23 +7,71 @@ on:
     branches: [main, master]
 
 jobs:
-  build-and-test:
+  unit-test:
+    name: Unit Tests
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java 17
-        uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: temurin
           cache: maven
 
-      - name: Build and test
-        run: ./mvnw clean verify
+      - name: Run unit tests
+        run: ./mvnw test -pl sm-core,sm-shop --no-transfer-progress
 
-      - name: Upload artifact
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: '**/target/surefire-reports/*.xml'
+
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: unit-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+
+      - name: Run integration tests
+        run: |
+          ./mvnw test -pl sm-shop --no-transfer-progress \
+            -Dtest="**/integration/**/*Test" \
+            -DfailIfNoTests=false
+
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: '**/target/surefire-reports/*.xml'
+
+  build-artifact:
+    name: Build Artifact
+    runs-on: ubuntu-latest
+    needs: [unit-test, integration-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          cache: maven
+
+      - name: Build JAR
+        run: ./mvnw clean package -DskipTests --no-transfer-progress
+
+      - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
           name: shopizer-${{ github.sha }}
