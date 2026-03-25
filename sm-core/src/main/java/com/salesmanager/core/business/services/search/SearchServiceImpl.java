@@ -510,10 +510,9 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 	
 	public String loadClassPathResource(String file) throws Exception {
 		Resource res = new ClassPathResource(file);
-		File f = res.getFile();
-		
-		return new String(
-			      Files.readAllBytes(f.toPath()));
+		try (java.io.InputStream is = res.getInputStream()) {
+			return new String(is.readAllBytes());
+		}
 	}
 
 }
