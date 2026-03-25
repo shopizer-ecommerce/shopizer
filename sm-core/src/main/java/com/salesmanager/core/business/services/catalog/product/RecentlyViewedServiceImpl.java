@@ -27,18 +27,17 @@ public class RecentlyViewedServiceImpl implements RecentlyViewedService {
     @Override
     @Transactional
     public void recordView(Long productId, Long customerId, String sessionId) {
-        Optional<RecentlyViewed> existing = customerId != null
-                ? recentlyViewedRepository.findByCustomerIdAndProductId(customerId, productId)
-                : recentlyViewedRepository.findBySessionIdAndProductId(sessionId, productId);
+        List<RecentlyViewed> existing = customerId != null
+                ? recentlyViewedRepository.findTop1ByCustomerIdAndProductIdOrderByViewedAtDesc(customerId, productId)
+                : recentlyViewedRepository.findTop1BySessionIdAndProductIdOrderByViewedAtDesc(sessionId, productId);
 
-        RecentlyViewed rv = existing.orElseGet(() -> {
-            RecentlyViewed n = new RecentlyViewed();
+        RecentlyViewed rv = existing.isEmpty() ? new RecentlyViewed() : existing.get(0);
+        if (rv.getId() == null) {
             Product product = productRepository.getOne(productId);
-            n.setProduct(product);
-            n.setCustomerId(customerId);
-            n.setSessionId(sessionId);
-            return n;
-        });
+            rv.setProduct(product);
+            rv.setCustomerId(customerId);
+            rv.setSessionId(sessionId);
+        }
         rv.setViewedAt(new Date());
         recentlyViewedRepository.save(rv);
     }

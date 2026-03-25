@@ -14,9 +14,9 @@ public interface RecentlyViewedRepository extends JpaRepository<RecentlyViewed, 
 
     List<RecentlyViewed> findTop10BySessionIdOrderByViewedAtDesc(String sessionId);
 
-    Optional<RecentlyViewed> findByCustomerIdAndProductId(Long customerId, Long productId);
+    List<RecentlyViewed> findTop1ByCustomerIdAndProductIdOrderByViewedAtDesc(Long customerId, Long productId);
 
-    Optional<RecentlyViewed> findBySessionIdAndProductId(String sessionId, Long productId);
+    List<RecentlyViewed> findTop1BySessionIdAndProductIdOrderByViewedAtDesc(String sessionId, Long productId);
 
     @Query("select rv.product.id, count(rv) as views from RecentlyViewed rv group by rv.product.id order by views desc")
     List<Object[]> findMostViewed(org.springframework.data.domain.Pageable pageable);
