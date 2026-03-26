@@ -11,6 +11,7 @@ concurrency:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
   test:
@@ -42,3 +43,19 @@ jobs:
           name: test-reports
           path: '**/target/surefire-reports/*.xml'
           retention-days: 7
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./sm-shop
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/shopizer:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/shopizer:latest
