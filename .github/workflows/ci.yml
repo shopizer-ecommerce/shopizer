@@ -29,8 +29,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Run tests
-        run: ./mvnw -B verify --fail-at-end
+      - name: Build
+        run: ./mvnw -B package -DskipTests
+
+      - name: Test
+        run: ./mvnw -B verify
 
       - name: Upload test reports
         if: always()
