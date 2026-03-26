@@ -1,7 +1,7 @@
 name: Deploy
 
 on:
-  workflow_dispatch:    # only runs when you manually trigger it in GitHub UI
+  workflow_dispatch:
     inputs:
       image_tag:
         description: 'Image tag to deploy (default: latest)'
@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Deploy shopizer
-        run: echo "Deploying shopizer:${{ github.event.inputs.image_tag }}"
+        run: kubectl rollout restart deployment/shopizer -n shopizer
