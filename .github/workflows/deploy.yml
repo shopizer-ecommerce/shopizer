@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  workflow_dispatch:    # only runs when you manually trigger it in GitHub UI
+    inputs:
+      image_tag:
+        description: 'Image tag to deploy (default: latest)'
+        required: false
+        default: 'latest'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy shopizer
+        run: echo "Deploying shopizer:${{ github.event.inputs.image_tag }}"
