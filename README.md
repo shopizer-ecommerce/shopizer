@@ -58,8 +58,8 @@ docker run \
 
 ```
 docker run \
- -e "APP_MERCHANT=DEFAULT"
- -e "APP_BASE_URL=http://localhost:8080"
+ -e "APP_MERCHANT=DEFAULT" \
+ -e "APP_BASE_URL=http://localhost:8080" \
  -p 80:80 shopizerecomm/shopizer-shop-reactjs
 ```
 
@@ -89,11 +89,11 @@ From the command line:
 
 2. Shopizer admin
 
-Form compiling and running Shopizer admin consult the repo README file
+For compiling and running instructions consult the corresponding repo README file
 
 3. Shop sample site
 
-Form compiling and running Shopizer admin consult the repo README file
+For compiling and running instructions consult the corresponding repo README file
 
 
 ### Access the application:
@@ -109,7 +109,7 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
-Documentation available [<https://shopizer-ecommerce.github.io/documentation/>](http://localhost:8080/swagger-ui/index.html)
+Documentation available at <https://shopizer-ecommerce.github.io/documentation/>
 
 ChatOps <https://shopizer.slack.com>  - Join our Slack channel <https://communityinviter.com/apps/shopizer/shopizer>
 
