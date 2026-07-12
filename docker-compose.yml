@@ -1,0 +1,79 @@
+
+
+# Shopizer full stack: MySQL + Headless API + Admin + React sample shop
+#
+# 1. Copy .env.example to .env and adjust values if needed
+# 2. Run: docker compose up -d
+# 3. See docs/DOCKER_SETUP.md for details
+#
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: shopizer-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root-password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-SALESMANAGER}
+      MYSQL_USER: ${MYSQL_USER:-shopizer}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-shopizer-password}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - shopizer-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  shopizer:
+    image: shopizerecomm/shopizer:latest
+    container_name: shopizer-api
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    # The mysql Spring profile loads profiles/mysql/database.properties,
+    # which leaves db.jdbcUrl / db.user / db.password unset so they can be
+    # supplied as JVM system properties (PropertyPlaceholderConfigurer
+    # falls back to system properties).
+    command:
+      - java
+      - -Dspring.profiles.active=mysql
+      - "-Ddb.jdbcUrl=jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-SALESMANAGER}?autoReconnect=true&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8"
+      - -Ddb.user=${MYSQL_USER:-shopizer}
+      - -Ddb.password=${MYSQL_PASSWORD:-shopizer-password}
+      - -Delasticsearch.security.password=NO
+      - -jar
+      - /opt/app/shopizer.jar
+    ports:
+      - "${SHOPIZER_API_PORT:-8080}:8080"
+
+  shopizer-admin:
+    image: shopizerecomm/shopizer-admin:latest
+    container_name: shopizer-admin
+    restart: unless-stopped
+    depends_on:
+      - shopizer
+    environment:
+      APP_BASE_URL: ${ADMIN_APP_BASE_URL:-http://localhost:8080/api}
+    ports:
+      - "${SHOPIZER_ADMIN_PORT:-82}:80"
+
+  shopizer-shop:
+    image: shopizerecomm/shopizer-shop-reactjs:latest
+    container_name: shopizer-shop
+    restart: unless-stopped
+    depends_on:
+      - shopizer
+    environment:
+      APP_MERCHANT: ${APP_MERCHANT:-DEFAULT}
+      APP_BASE_URL: ${SHOP_APP_BASE_URL:-http://localhost:8080}
+    ports:
+      - "${SHOPIZER_SHOP_PORT:-80}:80"
+
+volumes:
+  shopizer-mysql-data:
