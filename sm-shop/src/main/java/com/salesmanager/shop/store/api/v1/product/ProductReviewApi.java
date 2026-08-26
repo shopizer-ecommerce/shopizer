@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.product;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
+import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
@@ -42,6 +45,8 @@ public class ProductReviewApi {
   @Inject private ProductService productService;
 
   @Inject private ProductReviewService productReviewService;
+
+  @Inject private CustomerService customerService;
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductReviewApi.class);
 
@@ -68,6 +73,16 @@ public class ProductReviewApi {
       HttpServletResponse response) {
 
     try {
+      if (request.isUserInRole(Constants.PERMISSION_CUSTOMER_AUTHENTICATED)) {
+        Principal principal = request.getUserPrincipal();
+        Customer customer = principal == null ? null : customerService.getByNick(principal.getName());
+        if (customer == null) {
+          response.sendError(401, "Customer not authorized");
+          return null;
+        }
+        review.setCustomerId(customer.getId());
+      }
+
       // rating already exist
       ProductReview prodReview =
           productReviewService.getByProductAndCustomer(

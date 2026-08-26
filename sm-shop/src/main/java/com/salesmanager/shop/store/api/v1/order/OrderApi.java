@@ -369,6 +369,11 @@ public class OrderApi {
 				throw new ResourceNotFoundException("Cart code " + code + " does not exist");
 			}
 
+			if (cart.getCustomerId() != null && !cart.getCustomerId().equals(customer.getId())) {
+				response.sendError(404, "Cart code " + code + " does not exist");
+				return null;
+			}
+
 			order.setShoppingCartId(cart.getId());
 			order.setCustomerId(customer.getId());//That is an existing customer purchasing
 
