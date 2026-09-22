@@ -2,6 +2,9 @@ package com.salesmanager.core.business.services.order.ordertotal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -42,13 +45,24 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 		List<OrderTotal> totals = null;
 		
 		if(orderTotalPostProcessors != null) {
+			List<ShoppingCartItem> items = summary.getProducts();
+			// Prefer products already attached to cart items; batch-load only what's missing
+			List<String> missingSkus = items.stream()
+					.filter(i -> i.getProduct() == null)
+					.map(ShoppingCartItem::getSku)
+					.filter(Objects::nonNull)
+					.distinct()
+					.collect(Collectors.toList());
+			Map<String, Product> productsBySku = productService.getBySkus(missingSkus, store, language);
+
 			for(OrderTotalPostProcessorModule module : orderTotalPostProcessors) {
 				//TODO check if the module is enabled from the Admin
 				
-				List<ShoppingCartItem> items = summary.getProducts();
 				for(ShoppingCartItem item : items) {
 
-					Product product = productService.getBySku(item.getSku(), store, language);
+					Product product = item.getProduct() != null
+							? item.getProduct()
+							: productsBySku.get(item.getSku());
 					//Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language, store));
 					
 					OrderTotal orderTotal = module.caculateProductPiceVariation(summary, item, product, customer, store);

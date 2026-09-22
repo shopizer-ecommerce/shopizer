@@ -1242,4 +1242,68 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Product> getByIds(Set<Long> productIds, MerchantStore store, Language language) {
+
+		if (productIds == null || productIds.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		StringBuilder qs = new StringBuilder();
+		qs.append("select distinct p from Product as p ");
+		qs.append("join fetch p.descriptions pd ");
+		qs.append("join fetch p.merchantStore pm ");
+		qs.append("left join fetch p.availabilities pavail ");
+		qs.append("left join fetch p.type type ");
+		qs.append("left join fetch pavail.prices pavailpr ");
+		qs.append("left join fetch pavailpr.descriptions pavailprdesc ");
+
+		qs.append("left join fetch p.categories categs ");
+		qs.append("left join fetch categs.descriptions categsd ");
+
+		// options
+		qs.append("left join fetch p.attributes pattr ");
+		qs.append("left join fetch pattr.productOption po ");
+		qs.append("left join fetch po.descriptions pod ");
+		qs.append("left join fetch pattr.productOptionValue pov ");
+		qs.append("left join fetch pov.descriptions povd ");
+		qs.append("left join fetch p.relationships pr ");
+		// other lefts
+		qs.append("left join fetch p.manufacturer manuf ");
+		qs.append("left join fetch manuf.descriptions manufd ");
+		qs.append("left join fetch p.type type ");
+
+		//variants
+		qs.append("left join fetch p.variants pinst ");
+		qs.append("left join fetch pinst.variation pv ");
+		qs.append("left join fetch pv.productOption pvpo ");
+		qs.append("left join fetch pv.productOptionValue pvpov ");
+		qs.append("left join fetch pvpo.descriptions pvpod ");
+		qs.append("left join fetch pvpov.descriptions pvpovd ");
+
+		qs.append("left join fetch pinst.variationValue pvv ");
+		qs.append("left join fetch pvv.productOption pvvpo ");
+		qs.append("left join fetch pvv.productOptionValue pvvpov ");
+		qs.append("left join fetch pvvpo.descriptions povvpod ");
+		qs.append("left join fetch pvpov.descriptions povvpovd ");
+
+		//variant availability and price
+		qs.append("left join fetch pinst.availabilities pinsta ");
+		qs.append("left join fetch pinsta.prices pinstap ");
+		qs.append("left join fetch pinstap.descriptions pinstapdesc ");
+		qs.append("left join fetch pinst.productVariantGroup pinstg ");
+		qs.append("left join fetch pinstg.images pinstgimg ");
+		qs.append("left join fetch pinstgimg.descriptions ");
+		//end variants
+
+		qs.append("where p.id in (:productIds) and pm.id=:id");
+
+		Query q = this.em.createQuery(qs.toString());
+		q.setParameter("productIds", productIds);
+		q.setParameter("id", store.getId());
+
+		return q.getResultList();
+	}
+
 }

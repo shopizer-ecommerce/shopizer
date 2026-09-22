@@ -59,6 +59,11 @@ public interface ProductRepositoryCustom {
 		
 		Product getById(Long productId, MerchantStore store, Language language);
 
+		/**
+		 * Same fetch graph as {@link #getById(Long, MerchantStore, Language)} but for many ids.
+		 */
+		List<Product> getByIds(Set<Long> productIds, MerchantStore store, Language language);
+
 		List<Product> getProductsForLocale(MerchantStore store,
 				Set<Long> categoryIds, Language language, Locale locale);
 

@@ -4,12 +4,18 @@ package com.salesmanager.core.business.services.catalog.product;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -403,6 +409,48 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		
 
 
+	}
+
+	@Override
+	public Map<String, Product> getBySkus(Collection<String> skus, MerchantStore merchant, Language language)
+			throws ServiceException {
+
+		Set<String> distinctSkus = skus == null ? Collections.emptySet()
+				: skus.stream().filter(s -> s != null && !s.isEmpty()).collect(Collectors.toSet());
+		if (distinctSkus.isEmpty()) {
+			return Collections.emptyMap();
+		}
+
+		try {
+			// One query. Each row is [productSku, variantSku, productId]. Either SKU column may be
+			// the one that matched, so the two passes below are over this list, not the database.
+			List<Object[]> rows = productRepository.findBySkus(new ArrayList<>(distinctSkus), merchant.getId());
+
+			Map<String, Long> skuToId = rows.stream()
+					.flatMap(row -> Stream.of(row[0], row[1])
+							.filter(Objects::nonNull)
+							.map(Object::toString)
+							.filter(distinctSkus::contains)
+							.map(sku -> Map.entry(sku, ((Number) row[2]).longValue())))
+					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a));
+
+			Set<Long> ids = rows.stream()
+					.map(row -> ((Number) row[2]).longValue())
+					.collect(Collectors.toSet());
+
+			if (ids.isEmpty()) {
+				return Collections.emptyMap();
+			}
+
+			Map<Long, Product> byId = productRepository.getByIds(ids, merchant, language).stream()
+					.collect(Collectors.toMap(Product::getId, Function.identity(), (a, b) -> a));
+
+			return skuToId.entrySet().stream()
+					.filter(e -> byId.containsKey(e.getValue()))
+					.collect(Collectors.toMap(Map.Entry::getKey, e -> byId.get(e.getValue())));
+		} catch (Exception e) {
+			throw new ServiceException("Cannot get products with skus " + distinctSkus, e);
+		}
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -348,7 +349,13 @@ public class ShoppingCartFacadeImpl implements ShoppingCartFacade {
 
 		List<String> productSkus = shoppingCartItems.stream().map(s -> s.getProduct()).collect(Collectors.toList());
 
-		List<Product> products = productSkus.stream().map(p -> this.fetchProduct(p, store, store.getDefaultLanguage()))
+		Map<String, Product> productsBySku;
+		try {
+			productsBySku = productService.getBySkus(productSkus, store, store.getDefaultLanguage());
+		} catch (ServiceException e) {
+			throw new ServiceRuntimeException(e);
+		}
+		List<Product> products = productSkus.stream().map(productsBySku::get).filter(p -> p != null)
 				.collect(Collectors.toList());
 
 		if (products == null || products.size() != shoppingCartItems.size()) {

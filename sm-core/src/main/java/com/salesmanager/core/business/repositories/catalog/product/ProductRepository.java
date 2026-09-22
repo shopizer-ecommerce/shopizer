@@ -27,4 +27,17 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 	)
 	List<Object> findBySku(String sku, Integer consultId);
 
+	/**
+	 * Batch SKU lookup: returns rows of [productSku, variantSku, productId].
+	 * Either productSku or variantSku may match a requested SKU.
+	 */
+	@Query(
+			value = "select p.SKU as PRODUCT_SKU, i.SKU as VARIANT_SKU, p.PRODUCT_ID as PRODUCT_ID from {h-schema}PRODUCT p "
+					+ "join {h-schema}MERCHANT_STORE m ON p.MERCHANT_ID = m.MERCHANT_ID "
+					+ "left join {h-schema}PRODUCT_VARIANT i ON i.PRODUCT_ID = p.PRODUCT_ID "
+					+ "where (p.SKU in (?1) or i.SKU in (?1)) and m.MERCHANT_ID=?2",
+			nativeQuery = true
+	)
+	List<Object[]> findBySkus(List<String> skus, Integer merchantId);
+
 }

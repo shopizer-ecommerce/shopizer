@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -242,11 +243,14 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 				}
 
-				// Set<ShoppingCartItem> shoppingCartItems = new
-				// HashSet<ShoppingCartItem>();
+				// Batch-load products for all line items (avoids per-SKU getBySku N+1)
+				List<String> skus = items.stream().map(ShoppingCartItem::getSku).filter(s -> s != null)
+						.distinct().collect(Collectors.toList());
+				Map<String, Product> productsBySku = productService.getBySkus(skus, store, store.getDefaultLanguage());
+
 				for (ShoppingCartItem item : items) {
 					LOGGER.debug("Populate item " + item.getId());
-					getPopulatedItem(item, store);
+					getPopulatedItem(item, store, productsBySku.get(item.getSku()));
 					LOGGER.debug("Obsolete item ? " + item.isObsolete());
 					if (item.isObsolete()) {
 						cartIsObsolete = true;
@@ -290,9 +294,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 	}
 
 	@Transactional
-	private void getPopulatedItem(final ShoppingCartItem item, MerchantStore store) throws Exception {
-
-		Product product = productService.getBySku(item.getSku(), store, store.getDefaultLanguage());
+	private void getPopulatedItem(final ShoppingCartItem item, MerchantStore store, Product product) throws Exception {
 
 		if (product == null) {
 			item.setObsolete(true);
@@ -443,8 +445,11 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		Set<ShoppingCartItem> shoppingCartItemsSet = null;
 		if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
 			shoppingCartItemsSet = new HashSet<ShoppingCartItem>();
+			List<String> skus = sessionCart.getLineItems().stream().map(ShoppingCartItem::getSku)
+					.filter(s -> s != null).distinct().collect(Collectors.toList());
+			Map<String, Product> productsBySku = productService.getBySkus(skus, store, store.getDefaultLanguage());
 			for (ShoppingCartItem shoppingCartItem : sessionCart.getLineItems()) {
-				Product product = productService.getBySku(shoppingCartItem.getSku(), store, store.getDefaultLanguage());
+				Product product = productsBySku.get(shoppingCartItem.getSku());
 						//.getById(shoppingCartItem.getProductId());
 				if (product == null) {
 					throw new Exception("Item with sku " + shoppingCartItem.getSku() + " does not exist");

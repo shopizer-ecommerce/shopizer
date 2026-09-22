@@ -89,6 +89,12 @@ public interface ProductService extends SalesManagerEntityService<Long, Product>
 	Product getBySku(String productCode, MerchantStore merchant) throws ServiceException;
 
 	/**
+	 * Batch load products by SKU (product or variant SKU).
+	 * Keys in the returned map are the requested SKUs.
+	 */
+	java.util.Map<String, Product> getBySkus(java.util.Collection<String> skus, MerchantStore merchant, Language language) throws ServiceException;
+
+	/**
 	 * Find a product for a specific merchant
 	 * @param id
 	 * @param merchant
