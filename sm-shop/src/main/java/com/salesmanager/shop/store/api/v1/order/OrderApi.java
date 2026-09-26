@@ -40,6 +40,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
+import com.salesmanager.shop.model.order.history.ReadableOrderStatusHistory;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
@@ -49,6 +50,7 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.services.CredentialsException;
@@ -59,6 +61,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
@@ -328,6 +331,50 @@ public class OrderApi {
 		}
 
 		return order;
+	}
+
+	/**
+	 * Get order status history for authenticated customer
+	 * 
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/auth/orders/{id}/history" }, method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiOperation(httpMethod = "GET", value = "Get order status history for authenticated customer", notes = "Returns tracking history and status timeline for an order", response = List.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public List<ReadableOrderStatusHistory> getOrderHistory(@PathVariable final Long id,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request)
+			throws Exception {
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+
+		Customer customer = customerService.getByNick(userName);
+
+		if (customer == null) {
+			throw new UnauthorizedException("Customer " + userName + " not authorized");
+		}
+
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+
+		if (order == null) {
+			LOGGER.error("Order is null for id " + id);
+			throw new ResourceNotFoundException("Order is null for id " + id);
+		}
+
+		if (order.getCustomer() == null || order.getCustomer().getId() == null
+				|| order.getCustomer().getId().longValue() != customer.getId().longValue()) {
+			LOGGER.error("Order is null for customer " + principal);
+			throw new UnauthorizedException("Order is null for customer " + principal);
+		}
+
+		return orderFacade.getReadableOrderHistory(id, merchantStore, language);
 	}
 
 	/**
