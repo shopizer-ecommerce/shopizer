@@ -871,7 +871,7 @@ public class UserFacadeImpl implements UserFacade {
 			user = userService.getByPasswordResetToken(store, token);
 			if (user == null) {
 				throw new ResourceNotFoundException(
-						"Customer not fount for store [" + store + "] and token [" + token + "]");
+						"Customer not found for store [" + store + "] and token [" + token + "]");
 			}
 
 		} catch (Exception e) {

@@ -67,7 +67,7 @@ public class PricingServiceImpl implements PricingService {
 		try {
 			return priceUtil.getStoreFormatedAmountWithCurrency(store,amount);
 		} catch (Exception e) {
-			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
+			LOGGER.error("An error occurred when trying to format an amount " + amount.toString());
 			throw new ServiceException(e);
 		}
 	}
@@ -78,7 +78,7 @@ public class PricingServiceImpl implements PricingService {
 		try {
 			return priceUtil.getFormatedAmountWithCurrency(locale, currency, amount);
 		} catch (Exception e) {
-			LOGGER.error("An error occured when trying to format an amunt " + amount.toString() + " using locale " + locale.toString() + " and currency " + currency.toString());
+			LOGGER.error("An error occurred when trying to format an amount " + amount.toString() + " using locale " + locale.toString() + " and currency " + currency.toString());
 			throw new ServiceException(e);
 		}
 	}
@@ -89,7 +89,7 @@ public class PricingServiceImpl implements PricingService {
 		try {
 			return priceUtil.getAdminFormatedAmount(store, amount);
 		} catch (Exception e) {
-			LOGGER.error("An error occured when trying to format an amount " + amount.toString());
+			LOGGER.error("An error occurred when trying to format an amount " + amount.toString());
 			throw new ServiceException(e);
 		}
 	}
@@ -100,7 +100,7 @@ public class PricingServiceImpl implements PricingService {
 		try {
 			return priceUtil.getAmount(amount);
 		} catch (Exception e) {
-			LOGGER.error("An error occured when trying to format an amount " + amount);
+			LOGGER.error("An error occurred when trying to format an amount " + amount);
 			throw new ServiceException(e);
 		}
 

@@ -60,7 +60,7 @@ public class PersistableTaxRateMapper implements Mapper<PersistableTaxRate, TaxR
 			return destination;
 		
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("An error occured withe creating tax rate",e);
+			throw new ServiceRuntimeException("An error occurred while creating tax rate",e);
 		}
 		
 

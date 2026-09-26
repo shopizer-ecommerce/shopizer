@@ -1478,7 +1478,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			orderService.addOrderStatusHistory(order, history);
 
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("An error occured while converting orderstatushistory", e);
+			throw new ServiceRuntimeException("An error occurred while converting orderstatushistory", e);
 		}
 
 	}
@@ -1504,7 +1504,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		orderService.saveOrUpdate(modelOrder);
 
 		} catch(Exception e) {
-			throw new ServiceRuntimeException("An error occured while updating order customer", e);
+			throw new ServiceRuntimeException("An error occurred while updating order customer", e);
 		}
 
 	}

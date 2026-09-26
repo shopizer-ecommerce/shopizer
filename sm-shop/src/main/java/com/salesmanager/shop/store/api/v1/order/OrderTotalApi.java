@@ -107,13 +107,13 @@ public class OrderTotalApi {
 
       if (shoppingCart.getCustomerId() == null) {
         response.sendError(
-            404, "Cart id " + id + " does not exist for exist for user " + userName);
+            404, "Cart id " + id + " does not exist for user " + userName);
         return null;
       }
 
       if (shoppingCart.getCustomerId().longValue() != customer.getId().longValue()) {
         response.sendError(
-            404, "Cart id " + id + " does not exist for exist for user " + userName);
+            404, "Cart id " + id + " does not exist for user " + userName);
         return null;
       }
 

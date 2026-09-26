@@ -102,7 +102,7 @@ public class ReadableMinimalProductMapper implements Mapper<Product, ReadableMin
 						
 			}
 		} catch (ServiceException e) {
-			throw new ConversionRuntimeException("An error occured during price calculation", e);
+			throw new ConversionRuntimeException("An error occurred during price calculation", e);
 		}
 		
 

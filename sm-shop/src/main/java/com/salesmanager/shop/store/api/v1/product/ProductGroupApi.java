@@ -138,7 +138,7 @@ public class ProductGroupApi {
       ReadableProductList list = productItemsFacade.listItemsByGroup(code, merchantStore, language);
 
       if (list == null) {
-        response.sendError(404, "Group not fount for code " + code);
+        response.sendError(404, "Group not found for code " + code);
         return null;
       }
 
@@ -146,7 +146,7 @@ public class ProductGroupApi {
 
     } catch (Exception e) {
       LOGGER.error("Error while getting products", e);
-      response.sendError(503, "An error occured while retrieving products " + e.getMessage());
+      response.sendError(503, "An error occurred while retrieving products " + e.getMessage());
     }
 
     return null;
@@ -172,7 +172,7 @@ public class ProductGroupApi {
     	product = productService.getById(productId);
 
       if (product == null) {
-        response.sendError(404, "Product not fount for id " + productId);
+        response.sendError(404, "Product not found for id " + productId);
         return null;
       }
       
@@ -215,7 +215,7 @@ public class ProductGroupApi {
       Product product = productService.getById(productId);
 
       if (product == null) {
-        response.sendError(404, "Product not fount for id " + productId);
+        response.sendError(404, "Product not found for id " + productId);
         return null;
       }
 

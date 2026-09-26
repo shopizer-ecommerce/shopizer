@@ -63,8 +63,8 @@ public class SecurityApi {
 				throw new ResourceNotFoundException("Group [" + group + "] does not exist");
 			}
 		} catch (Exception e) {
-			LOGGER.error("An error occured while getting group [" + group + "]",e);
-			throw new ServiceRuntimeException("An error occured while getting group [" + group + "]");
+			LOGGER.error("An error occurred while getting group [" + group + "]",e);
+			throw new ServiceRuntimeException("An error occurred while getting group [" + group + "]");
 		}
 		Set<Permission> permissions = g.getPermissions();
 		List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();

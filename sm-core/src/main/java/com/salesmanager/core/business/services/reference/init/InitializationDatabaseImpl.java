@@ -360,7 +360,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 	        }
         
 		}catch(Exception e) {
-			LOGGER.error("An error occured while loading zones",e);
+			LOGGER.error("An error occurred while loading zones",e);
 			
 		}
 		

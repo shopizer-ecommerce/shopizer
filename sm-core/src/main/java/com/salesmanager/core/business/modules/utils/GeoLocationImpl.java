@@ -47,7 +47,7 @@ public class GeoLocationImpl implements GeoLocation {
 			address.setCity(response.getCity().getName());
 			
 			} catch(com.maxmind.geoip2.exception.AddressNotFoundException ne) {
-				LOGGER.debug("Address not fount in DB " + ne.getMessage());
+				LOGGER.debug("Address not found in DB " + ne.getMessage());
 			} catch(Exception e) {
 				throw new ServiceException(e);
 			}

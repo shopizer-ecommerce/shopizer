@@ -453,7 +453,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			return variants;
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("An error occured while retrieving ProductAttributes", e);
+			throw new ServiceRuntimeException("An error occurred while retrieving ProductAttributes", e);
 		}
 	}
 

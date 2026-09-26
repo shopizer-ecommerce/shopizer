@@ -313,7 +313,7 @@ public class ProductApi {
 		ReadableProduct product = productCommonFacade.getProduct(merchantStore, id, language);
 
 		if (product == null) {
-			response.sendError(404, "Product not fount for id " + id);
+			response.sendError(404, "Product not found for id " + id);
 			return null;
 		}
 
@@ -371,7 +371,7 @@ public class ProductApi {
 		ReadableProduct product = productFacade.getProductBySeUrl(merchantStore, friendlyUrl, language);
 
 		if (product == null) {
-			response.sendError(404, "Product not fount for id " + friendlyUrl);
+			response.sendError(404, "Product not found for id " + friendlyUrl);
 			return null;
 		}
 

@@ -54,7 +54,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 			return returnList;
 		} catch (Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while getting product types for merchant[ " + store.getCode() + "]", e);
+					"An exception occurred while getting product types for merchant[ " + store.getCode() + "]", e);
 		}
 
 	}
@@ -84,7 +84,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while getting product type [" + id + "] not found for store [" + store.getCode() + "]", e);
+					"An exception occurred while getting product type [" + id + "] not found for store [" + store.getCode() + "]", e);
 		}
 
 	}
@@ -110,7 +110,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while saving product type",e);
+					"An exception occurred while saving product type",e);
 		}
 
 	}
@@ -138,7 +138,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while saving product type",e);
+					"An exception occurred while saving product type",e);
 		}
 
 	}
@@ -161,7 +161,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 
 		} catch(Exception e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while saving product type",e);
+					"An exception occurred while saving product type",e);
 		}
 
 	}
@@ -172,7 +172,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		try {
 			t = productTypeService.getByCode(code, store, language);
 	    } catch (ServiceException e) {
-			throw new RuntimeException("An exception occured while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
+			throw new RuntimeException("An exception occurred while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
 		}
 		if(t != null) {
 			return true;
@@ -186,7 +186,7 @@ public class ProductTypeFacadeImpl implements ProductTypeFacade {
 		try {
 			t = productTypeService.getByCode(code, store, language);
 	    } catch (ServiceException e) {
-			throw new RuntimeException("An exception occured while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
+			throw new RuntimeException("An exception occurred while getting product type [" + code + "] for merchant store [" + store.getCode() +"]",e);
 		}
 
 		if(t == null) {

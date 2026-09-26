@@ -235,7 +235,7 @@ public class ProductInventoryFacadeImpl implements ProductInventoryFacade {
 					availabilities = new PageImpl<ProductAvailability>(new ArrayList<ProductAvailability>(singleProduct.getAvailabilities()));
 				}
 			} catch (ServiceException e) {
-				throw new ServiceRuntimeException("An error occured while getting product with sku " + sku,e);
+				throw new ServiceRuntimeException("An error occurred while getting product with sku " + sku,e);
 			}
 		}
 		

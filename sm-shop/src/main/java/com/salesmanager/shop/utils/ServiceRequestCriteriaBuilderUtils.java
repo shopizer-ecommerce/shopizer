@@ -62,7 +62,7 @@ public class ServiceRequestCriteriaBuilderUtils {
 			criteriaAccessor.setPropertyValue(setterName, parameterValue);
 		
 		} catch(Exception e) {
-			throw new Exception("An error occured while parameter bindding", e);
+			throw new Exception("An error occurred while parameter binding", e);
 		}
 		
 		
