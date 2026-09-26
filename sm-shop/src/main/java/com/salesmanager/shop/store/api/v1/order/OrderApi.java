@@ -46,11 +46,16 @@ import com.salesmanager.shop.model.order.v1.PersistableAnonymousOrder;
 import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.model.order.v1.ReadableOrderConfirmation;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
+import com.salesmanager.shop.model.order.ReadableOrderProduct;
+import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
+import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
+import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
 import com.salesmanager.shop.store.security.services.CredentialsException;
 import com.salesmanager.shop.store.security.services.CredentialsService;
 import com.salesmanager.shop.utils.AuthorizationUtils;
@@ -59,6 +64,7 @@ import com.salesmanager.shop.utils.LocaleUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
@@ -85,6 +91,9 @@ public class OrderApi {
 
 	@Inject
 	private ShoppingCartService shoppingCartService;
+
+	@Inject
+	private ShoppingCartFacade shoppingCartFacade;
 
 	@Autowired
 	private CustomerFacade customerFacade;
@@ -328,6 +337,74 @@ public class OrderApi {
 		}
 
 		return order;
+	}
+
+	/**
+	 * Reorder products from an existing order (Buy Again)
+	 * 
+	 * @param id
+	 * @param merchantStore
+	 * @param language
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/auth/orders/{id}/reorder" }, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+	@ApiOperation(httpMethod = "POST", value = "Reorder products from a previous order", notes = "Reconstitutes items from an existing order into an active shopping cart for checkout", response = ReadableShoppingCart.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en") })
+	public ReadableShoppingCart reorder(@PathVariable final Long id,
+			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request)
+			throws Exception {
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+
+		Customer customer = customerService.getByNick(userName);
+
+		if (customer == null) {
+			throw new UnauthorizedException("Customer " + userName + " not authorized");
+		}
+
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+
+		if (order == null) {
+			LOGGER.error("Order is null for id " + id);
+			throw new ResourceNotFoundException("Order is null for id " + id);
+		}
+
+		if (order.getCustomer() == null || order.getCustomer().getId() == null
+				|| order.getCustomer().getId().longValue() != customer.getId().longValue()) {
+			LOGGER.error("Order is null for customer " + principal);
+			throw new UnauthorizedException("Order is null for customer " + principal);
+		}
+
+		if (CollectionUtils.isEmpty(order.getProducts())) {
+			throw new ResourceNotFoundException("No products found for order " + id);
+		}
+
+		ReadableShoppingCart cart = null;
+		for (ReadableOrderProduct orderProduct : order.getProducts()) {
+			String sku = !StringUtils.isBlank(orderProduct.getSku()) ? orderProduct.getSku()
+					: (orderProduct.getProduct() != null ? orderProduct.getProduct().getSku() : null);
+
+			if (StringUtils.isBlank(sku)) {
+				continue;
+			}
+
+			PersistableShoppingCartItem item = new PersistableShoppingCartItem();
+			item.setProduct(sku);
+			item.setQuantity(orderProduct.getOrderedQuantity() > 0 ? orderProduct.getOrderedQuantity() : 1);
+
+			cart = shoppingCartFacade.addToCart(customer, item, merchantStore, language);
+		}
+
+		if (cart == null) {
+			throw new ResourceNotFoundException("No active products could be added to cart from order " + id);
+		}
+
+		return cart;
 	}
 
 	/**
