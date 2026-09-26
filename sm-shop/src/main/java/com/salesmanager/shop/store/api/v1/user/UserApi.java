@@ -246,7 +246,7 @@ public class UserApi {
 	@PostMapping(value = { "/private/user/unique" }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "POST", value = "Check if username already exists", notes = "", response = EntityExists.class)
 	public ResponseEntity<EntityExists> exists(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-			@RequestBody UniqueEntity userName) {
+			@Valid @RequestBody UniqueEntity userName) {
 
 		boolean isUserExist = true;// default user exist
 		try {
