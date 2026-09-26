@@ -226,4 +226,23 @@ public class ShoppingCartAPIIntegrationTest extends ServicesTestSupport {
         assertThat(response.getStatusCode(), is(OK));
     }
 
+    /**
+     * Delete entire cart, should return 204 / no content
+     *
+     * @throws Exception
+     */
+    @Test
+    @Order(8)
+    public void deleteCart() throws Exception {
+
+        final ResponseEntity<Void> response =
+                testRestTemplate.exchange(String.format("/api/v1/cart/" + data.getCartId()),
+                        HttpMethod.DELETE,
+                        null,
+                        Void.class);
+
+        assertNotNull(response);
+        assertThat(response.getStatusCode(), is(NO_CONTENT));
+    }
+
 }
