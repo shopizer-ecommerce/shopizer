@@ -32,6 +32,7 @@ import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.shop.model.shoppingcart.PersistableShoppingCartItem;
 import com.salesmanager.shop.model.shoppingcart.ReadableShoppingCart;
 import com.salesmanager.shop.store.api.exception.OperationNotAllowedException;
@@ -185,8 +186,7 @@ public class ShoppingCartApi {
 			ReadableShoppingCart cart = shoppingCartFacade.getByCode(code, merchantStore, language);
 
 			if (cart == null) {
-				response.sendError(404, "No ShoppingCart found for customer code : " + code);
-				return null;
+				throw new ResourceNotFoundException("No ShoppingCart found for customer code : " + code);
 			}
 
 			return cart;
@@ -299,5 +299,21 @@ public class ShoppingCartApi {
 			return new ResponseEntity<>(updatedCart, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(updatedCart, HttpStatus.NO_CONTENT);
+	}
+
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@DeleteMapping(value = "/cart/{code}")
+	@ApiOperation(httpMethod = "DELETE", value = "Delete or clear an entire shopping cart", notes = "Deletes a shopping cart by cart code", response = Void.class)
+	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT") })
+	public void deleteCart(
+			@PathVariable("code") String cartCode,
+			@ApiIgnore MerchantStore merchantStore) throws Exception {
+
+		ShoppingCart cart = shoppingCartFacade.getShoppingCartModel(cartCode, merchantStore);
+		if (cart == null) {
+			throw new ResourceNotFoundException("Cart code " + cartCode + " does not exist");
+		}
+
+		shoppingCartFacade.deleteShoppingCart(cartCode, merchantStore);
 	}
 }
