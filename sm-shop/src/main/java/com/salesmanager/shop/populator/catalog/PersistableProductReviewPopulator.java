@@ -55,7 +55,7 @@ public class PersistableProductReviewPopulator extends
 		Validate.notNull(customerService,"customerService cannot be null");
 		Validate.notNull(productService,"productService cannot be null");
 		Validate.notNull(languageService,"languageService cannot be null");
-		Validate.notNull(source.getRating(),"Rating cannot bot be null");
+		Validate.notNull(source.getRating(),"Rating cannot be null");
 		
 		try {
 			

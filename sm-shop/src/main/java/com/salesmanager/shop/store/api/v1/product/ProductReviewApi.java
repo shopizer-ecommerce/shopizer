@@ -27,6 +27,8 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.RestApiException;
 import com.salesmanager.shop.store.controller.product.facade.ProductCommonFacade;
 
 import io.swagger.annotations.ApiImplicitParam;
@@ -68,35 +70,33 @@ public class ProductReviewApi {
       HttpServletResponse response) {
 
     try {
-      // rating already exist
-      ProductReview prodReview =
-          productReviewService.getByProductAndCustomer(
-              review.getProductId(), review.getCustomerId());
-      if (prodReview != null) {
-        response.sendError(500, "A review already exist for this customer and product");
-        return null;
-      }
+      // Set product id from path variable BEFORE using it for queries
+      review.setProductId(id);
 
       // rating maximum 5
       if (review.getRating() > Constants.MAX_REVIEW_RATING_SCORE) {
-        response.sendError(503, "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
-        return null;
+        throw new RestApiException("400",
+            "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
       }
 
-      review.setProductId(id);
+      // check if a review already exists for this customer and product
+      ProductReview prodReview =
+          productReviewService.getByProductAndCustomer(
+              id, review.getCustomerId());
+      if (prodReview != null) {
+        throw new RestApiException("409",
+            "A review already exists for this customer and product");
+      }
 
       productCommonFacade.saveOrUpdateReview(review, merchantStore, language);
 
       return review;
 
+    } catch (RestApiException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while saving product review", e);
-      try {
-        response.sendError(503, "Error while saving product review" + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
+      throw new RestApiException("500", "Error while saving product review: " + e.getMessage());
     }
   }
 
@@ -118,23 +118,16 @@ public class ProductReviewApi {
       Product product = productService.getById(id);
 
       if (product == null) {
-        response.sendError(404, "Product id " + id + " does not exists");
-        return null;
+        throw new ResourceNotFoundException("Product id " + id + " does not exist");
       }
 
-      List<ReadableProductReview> reviews =
-    		  productCommonFacade.getProductReviews(product, merchantStore, language);
+      return productCommonFacade.getProductReviews(product, merchantStore, language);
 
-      return reviews;
-
+    } catch (ResourceNotFoundException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while getting product reviews", e);
-      try {
-        response.sendError(503, "Error while getting product reviews" + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
+      throw new RestApiException("500", "Error while getting product reviews: " + e.getMessage());
     }
   }
 
@@ -162,19 +155,18 @@ public class ProductReviewApi {
     try {
       ProductReview prodReview = productReviewService.getById(reviewId);
       if (prodReview == null) {
-        response.sendError(404, "Product review with id " + reviewId + " does not exist");
-        return null;
+        throw new ResourceNotFoundException("Product review with id " + reviewId + " does not exist");
       }
 
-      if (prodReview.getCustomer().getId().longValue() != review.getCustomerId().longValue()) {
-        response.sendError(404, "Product review with id " + reviewId + " does not exist");
-        return null;
+      if (review.getCustomerId() == null
+          || prodReview.getCustomer().getId().longValue() != review.getCustomerId().longValue()) {
+        throw new ResourceNotFoundException("Product review with id " + reviewId + " does not exist");
       }
 
       // rating maximum 5
       if (review.getRating() > Constants.MAX_REVIEW_RATING_SCORE) {
-        response.sendError(503, "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
-        return null;
+        throw new RestApiException("400",
+            "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
       }
 
       review.setProductId(id);
@@ -183,14 +175,11 @@ public class ProductReviewApi {
 
       return review;
 
+    } catch (ResourceNotFoundException | RestApiException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while saving product review", e);
-      try {
-        response.sendError(503, "Error while saving product review" + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return null;
+      throw new RestApiException("500", "Error while saving product review: " + e.getMessage());
     }
   }
 
@@ -216,25 +205,21 @@ public class ProductReviewApi {
     try {
       ProductReview prodReview = productReviewService.getById(reviewId);
       if (prodReview == null) {
-        response.sendError(404, "Product review with id " + reviewId + " does not exist");
-        return;
+        throw new ResourceNotFoundException("Product review with id " + reviewId + " does not exist");
       }
 
       if (prodReview.getProduct().getId().longValue() != id.longValue()) {
-        response.sendError(404, "Product review with id " + reviewId + " does not exist");
-        return;
+        throw new ResourceNotFoundException("Product review with id " + reviewId + " does not exist");
       }
 
       productCommonFacade.deleteReview(prodReview, merchantStore, language);
 
+    } catch (ResourceNotFoundException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while deleting product review", e);
-      try {
-        response.sendError(503, "Error while deleting product review" + e.getMessage());
-      } catch (Exception ignore) {
-      }
-
-      return;
+      throw new RestApiException("500", "Error while deleting product review: " + e.getMessage());
     }
   }
 }
+
