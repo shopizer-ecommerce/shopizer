@@ -49,6 +49,7 @@ import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.services.CredentialsException;
@@ -123,8 +124,7 @@ public class OrderApi {
 
 		if (customer == null) {
 			LOGGER.error("Customer is null for id " + id);
-			response.sendError(404, "Customer is null for id " + id);
-			return null;
+			throw new ResourceNotFoundException("Customer is null for id " + id);
 		}
 
 		if (start == null) {
@@ -177,8 +177,7 @@ public class OrderApi {
 		Customer customer = customerService.getByNick(userName);
 
 		if (customer == null) {
-			response.sendError(401, "Error while listing orders, customer not authorized");
-			return null;
+			throw new UnauthorizedException("Customer " + userName + " not authorized");
 		}
 
 		if (page == null) {
@@ -302,29 +301,20 @@ public class OrderApi {
 		Customer customer = customerService.getByNick(userName);
 
 		if (customer == null) {
-			response.sendError(401, "Error while performing checkout customer not authorized");
-			return null;
+			throw new UnauthorizedException("Customer " + userName + " not authorized");
 		}
 
 		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
 		if (order == null) {
 			LOGGER.error("Order is null for id " + id);
-			response.sendError(404, "Order is null for id " + id);
-			return null;
+			throw new ResourceNotFoundException("Order is null for id " + id);
 		}
 
-		if (order.getCustomer() == null) {
+		if (order.getCustomer() == null || order.getCustomer().getId() == null
+				|| order.getCustomer().getId().longValue() != customer.getId().longValue()) {
 			LOGGER.error("Order is null for customer " + principal);
-			response.sendError(404, "Order is null for customer " + principal);
-			return null;
-		}
-
-		if (order.getCustomer().getId() != null
-				&& order.getCustomer().getId().longValue() != customer.getId().longValue()) {
-			LOGGER.error("Order is null for customer " + principal);
-			response.sendError(404, "Order is null for customer " + principal);
-			return null;
+			throw new ResourceNotFoundException("Order is null for customer " + principal);
 		}
 
 		return order;
@@ -360,8 +350,7 @@ public class OrderApi {
 			Customer customer = customerService.getByNick(userName);
 
 			if (customer == null) {
-				response.sendError(401, "Error while performing checkout customer not authorized");
-				return null;
+				throw new UnauthorizedException("Customer " + userName + " not authorized");
 			}
 
 			ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
@@ -381,13 +370,11 @@ public class OrderApi {
 
 
 
+		} catch (GenericRuntimeException e) {
+			throw e;
 		} catch (Exception e) {
 			LOGGER.error("Error while processing checkout", e);
-			try {
-				response.sendError(503, "Error while processing checkout " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			return null;
+			throw new ServiceRuntimeException("Error while processing checkout: " + e.getMessage(), e);
 		}
 	}
 

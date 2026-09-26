@@ -30,6 +30,10 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.shop.model.order.ReadableOrderTotalSummary;
 import com.salesmanager.shop.populator.order.ReadableOrderSummaryPopulator;
 import com.salesmanager.shop.store.controller.shoppingCart.facade.ShoppingCartFacade;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
+import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.utils.LabelUtils;
 
 import io.swagger.annotations.Api;
@@ -95,26 +99,18 @@ public class OrderTotalApi {
       Customer customer = customerService.getByNick(userName);
 
       if (customer == null) {
-        response.sendError(503, "Error while getting user details to calculate shipping quote");
+        throw new UnauthorizedException("Customer " + userName + " not authorized");
       }
 
       ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(id, merchantStore);
 
       if (shoppingCart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
-        return null;
+        throw new ResourceNotFoundException("Cart id " + id + " does not exist");
       }
 
-      if (shoppingCart.getCustomerId() == null) {
-        response.sendError(
-            404, "Cart id " + id + " does not exist for exist for user " + userName);
-        return null;
-      }
-
-      if (shoppingCart.getCustomerId().longValue() != customer.getId().longValue()) {
-        response.sendError(
-            404, "Cart id " + id + " does not exist for exist for user " + userName);
-        return null;
+      if (shoppingCart.getCustomerId() == null
+          || shoppingCart.getCustomerId().longValue() != customer.getId().longValue()) {
+        throw new ResourceNotFoundException("Cart id " + id + " does not exist for user " + userName);
       }
 
       ShippingSummary shippingSummary = null;
@@ -143,13 +139,11 @@ public class OrderTotalApi {
 
       return returnSummary;
 
+    } catch (GenericRuntimeException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while calculating order summary", e);
-      try {
-        response.sendError(503, "Error while calculating order summary " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-      return null;
+      throw new ServiceRuntimeException("Error while calculating order summary: " + e.getMessage(), e);
     }
   }
 
@@ -181,10 +175,7 @@ public class OrderTotalApi {
       ShoppingCart shoppingCart = shoppingCartFacade.getShoppingCartModel(code, merchantStore);
 
       if (shoppingCart == null) {
-
-        response.sendError(404, "Cart code " + code + " does not exist");
-
-        return null;
+        throw new ResourceNotFoundException("Cart code " + code + " does not exist");
       }
 
       ShippingSummary shippingSummary = null;
@@ -212,13 +203,11 @@ public class OrderTotalApi {
 
       return returnSummary;
 
+    } catch (GenericRuntimeException e) {
+      throw e;
     } catch (Exception e) {
       LOGGER.error("Error while calculating order summary", e);
-      try {
-        response.sendError(503, "Error while calculating order summary " + e.getMessage());
-      } catch (Exception ignore) {
-      }
-      return null;
+      throw new ServiceRuntimeException("Error while calculating order summary: " + e.getMessage(), e);
     }
   }
 }

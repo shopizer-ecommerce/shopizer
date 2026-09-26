@@ -45,7 +45,10 @@ import com.salesmanager.shop.model.order.transaction.ReadableTransaction;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
 import com.salesmanager.shop.populator.order.transaction.PersistablePaymentPopulator;
 import com.salesmanager.shop.populator.order.transaction.ReadableTransactionPopulator;
+import com.salesmanager.shop.store.api.exception.GenericRuntimeException;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
+import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.exception.UnauthorizedException;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.utils.AuthorizationUtils;
 
@@ -132,24 +135,17 @@ public class OrderPaymentApi {
 			Customer customer = customerService.getByNick(userName);
 
 			if (customer == null) {
-				response.sendError(401, "Error while initializing the payment customer not authorized");
-				return null;
+				throw new UnauthorizedException("Customer " + userName + " not authorized");
 			}
 
 			ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
 			if (cart == null) {
-
 				throw new ResourceNotFoundException("Cart code " + code + " does not exist");
 			}
 
-			if (cart.getCustomerId() == null) {
-				response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
-				return null;
-			}
-
-			if (cart.getCustomerId().longValue() != customer.getId().longValue()) {
-				response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
-				return null;
+			if (cart.getCustomerId() == null
+					|| cart.getCustomerId().longValue() != customer.getId().longValue()) {
+				throw new ResourceNotFoundException("Cart code " + code + " does not exist for user " + userName);
 			}
 
 			PersistablePaymentPopulator populator = new PersistablePaymentPopulator();
@@ -170,13 +166,11 @@ public class OrderPaymentApi {
 
 			return transaction;
 
+		} catch (GenericRuntimeException e) {
+			throw e;
 		} catch (Exception e) {
 			LOGGER.error("Error while initializing the payment", e);
-			try {
-				response.sendError(503, "Error while initializing the payment " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			return null;
+			throw new ServiceRuntimeException("Error while initializing the payment: " + e.getMessage(), e);
 		}
 	}
 
@@ -270,13 +264,11 @@ public class OrderPaymentApi {
 
 			return returnList;
 
+		} catch (GenericRuntimeException e) {
+			throw e;
 		} catch (Exception e) {
 			LOGGER.error("Error while getting capturable payments", e);
-			try {
-				response.sendError(503, "Error while getting capturable payments " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-			return null;
+			throw new ServiceRuntimeException("Error while getting capturable payments: " + e.getMessage(), e);
 		}
 	}
 
