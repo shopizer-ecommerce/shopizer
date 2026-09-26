@@ -250,7 +250,7 @@ public class ReadableProductMapper implements Mapper<Product, ReadableProduct> {
 								optValue.setPrice(formatedPrice);
 							} catch (ServiceException e) {
 								throw new ConversionRuntimeException(
-										"Error converting product option, an exception occured with pricingService", e);
+										"Error converting product option, an exception occurred with pricingService", e);
 							}
 						}
 

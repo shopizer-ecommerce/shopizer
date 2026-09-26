@@ -462,7 +462,7 @@ public class OrderApi {
 			if(StringUtils.isBlank(message)) {//exception type
 				message = "APP-BACKEND";
 				if(e.getCause() instanceof com.salesmanager.core.modules.integration.IntegrationException) {
-					message = "Integration problen occured to complete order";
+					message = "Integration problem occurred to complete order";
 				}
 			}
 			throw new ServiceRuntimeException("Error during checkout [" + message + "]", e);

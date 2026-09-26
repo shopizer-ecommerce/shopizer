@@ -44,7 +44,7 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-            	logger.error("an error occured during getting username from token", e);
+            	logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
             	logger.warn("the token is expired and not valid anymore", e);
             }

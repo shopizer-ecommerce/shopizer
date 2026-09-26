@@ -100,7 +100,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		try {
 			productOptionService.saveOrUpdate(optionModel);
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured while saving ProductOption", e);
+			throw new ServiceRuntimeException("An exception occurred while saving ProductOption", e);
 		}
 
 		optionModel = productOptionService.getById(store, optionModel.getId());
@@ -119,7 +119,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 		try {
 			productOptionService.delete(optionModel);
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured while deleting ProductOption [" + optionId + "]",
+			throw new ServiceRuntimeException("An exception occurred while deleting ProductOption [" + optionId + "]",
 					e);
 		}
 	}
@@ -135,7 +135,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 			productOptionValueService.delete(optionModel);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while deleting ProductOptionValue [" + optionValueId + "]", e);
+					"An exception occurred while deleting ProductOptionValue [" + optionValueId + "]", e);
 		}
 
 	}
@@ -407,7 +407,7 @@ public class ProductOptionFacadeImpl implements ProductOptionFacade {
 
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(
-					"An exception occured while deleting ProductAttribute [" + attributeId + "]", e);
+					"An exception occurred while deleting ProductAttribute [" + attributeId + "]", e);
 		}
 
 	}

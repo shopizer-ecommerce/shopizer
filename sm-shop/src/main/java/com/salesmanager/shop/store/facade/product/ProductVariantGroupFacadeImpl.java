@@ -210,7 +210,7 @@ public class ProductVariantGroupFacadeImpl implements ProductVariantGroupFacade 
 			//update productVariantroup
 			productVariantGroupService.update(group);
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured while removing instance image [" + imageId + "]",e);
+			throw new ServiceRuntimeException("An exception occurred while removing instance image [" + imageId + "]",e);
 		}
 			
 	}

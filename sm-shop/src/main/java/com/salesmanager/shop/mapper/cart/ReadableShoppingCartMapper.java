@@ -137,7 +137,7 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 					if(item.getVariant() != null) {
 						Optional<ProductVariant> productVariant = productVariantService.getById(item.getVariant(), store);
 						if(productVariant.isEmpty()) {
-							throw new ConversionRuntimeException("An error occured during shopping cart [" + source.getShoppingCartCode() + "] conversion, productVariant [" + item.getVariant() + "] not found");
+							throw new ConversionRuntimeException("An error occurred during shopping cart [" + source.getShoppingCartCode() + "] conversion, productVariant [" + item.getVariant() + "] not found");
 						}
 						shoppingCartItem.setVariant(readableProductVariationMapper.convert(productVariant.get().getVariation(), store, language));
 						if(productVariant.get().getVariationValue() != null) {
@@ -292,7 +292,7 @@ public class ReadableShoppingCartMapper implements Mapper<ShoppingCart, Readable
 			}
 
 		} catch (Exception e) {
-			throw new ConversionRuntimeException("An error occured while converting ReadableShoppingCart", e);
+			throw new ConversionRuntimeException("An error occurred while converting ReadableShoppingCart", e);
 		}
 
 		return destination;

@@ -124,7 +124,7 @@ public class ProductVariationApi {
     Product product = productService.getById(id);
 
     if (product == null) {
-      response.sendError(404, "Product not fount for id " + id);
+      response.sendError(404, "Product not found for id " + id);
       return null;
     }
 

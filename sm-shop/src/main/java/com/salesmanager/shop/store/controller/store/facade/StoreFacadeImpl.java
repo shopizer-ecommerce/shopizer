@@ -571,7 +571,7 @@ public class StoreFacadeImpl implements StoreFacade {
 		try {
 			store = merchantStoreService.getByCode(store.getCode());
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured when getting store [" + store.getCode() + "]");
+			throw new ServiceRuntimeException("An exception occurred when getting store [" + store.getCode() + "]");
 		}
 		
 		if(store!=null) {

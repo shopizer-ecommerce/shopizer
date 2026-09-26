@@ -228,7 +228,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 			customer = customerService.getByPasswordResetToken(store, token);
 			if (customer == null) {
 				throw new ResourceNotFoundException(
-						"Customer not fount for store [" + store + "] and token [" + token + "]");
+						"Customer not found for store [" + store + "] and token [" + token + "]");
 			}
 
 		} catch (Exception e) {

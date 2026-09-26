@@ -143,12 +143,12 @@ public class OrderPaymentApi {
 			}
 
 			if (cart.getCustomerId() == null) {
-				response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
+				response.sendError(404, "Cart code " + code + " does not exist for user " + userName);
 				return null;
 			}
 
 			if (cart.getCustomerId().longValue() != customer.getId().longValue()) {
-				response.sendError(404, "Cart code " + code + " does not exist for exist for user " + userName);
+				response.sendError(404, "Cart code " + code + " does not exist for user " + userName);
 				return null;
 			}
 

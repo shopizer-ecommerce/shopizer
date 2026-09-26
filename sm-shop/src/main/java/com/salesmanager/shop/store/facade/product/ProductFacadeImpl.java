@@ -257,7 +257,7 @@ public class ProductFacadeImpl implements ProductFacade {
 	    	return populator.populate(price, readablePrice, store, language);
     	
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("An error occured while getting product price",e);
+			throw new ServiceRuntimeException("An error occurred while getting product price",e);
 		}
 
 	}

@@ -59,7 +59,7 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 			}
 
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured while creating a ProductPrice");
+			throw new ServiceRuntimeException("An exception occurred while creating a ProductPrice");
 		}
 		return productPrice.getId();
 	}
@@ -76,7 +76,7 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 			try {
 				return this.readablePrice(p, store, language);
 			} catch (ConversionException e) {
-				throw new ServiceRuntimeException("An exception occured while getting product price for sku [" + sku + "] and Store [" + store.getCode() + "]", e);
+				throw new ServiceRuntimeException("An exception occurred while getting product price for sku [" + sku + "] and Store [" + store.getCode() + "]", e);
 			}
 		}).collect(Collectors.toList());
 		
@@ -95,7 +95,7 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 				try {
 					return this.readablePrice(p, store, language);
 				} catch (ConversionException e) {
-					throw new ServiceRuntimeException("An exception occured while getting product price for sku [" + sku + "] and Store [" + store.getCode() + "]", e);
+					throw new ServiceRuntimeException("An exception occurred while getting product price for sku [" + sku + "] and Store [" + store.getCode() + "]", e);
 				}
 			}).collect(Collectors.toList());
 			
@@ -111,13 +111,13 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 		Validate.notNull(sku, "Product sku cannot be null");
 		ProductPrice productPrice = productPriceService.findById(priceId, sku, store);
 		if(productPrice == null) {
-			throw new ServiceRuntimeException("An exception occured while getting product price [" + priceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]");
+			throw new ServiceRuntimeException("An exception occurred while getting product price [" + priceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]");
 		}
 		
 		try {
 			productPriceService.delete(productPrice);
 		} catch (ServiceException e) {
-			throw new ServiceRuntimeException("An exception occured while deleting product price [" + priceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]", e);
+			throw new ServiceRuntimeException("An exception occurred while deleting product price [" + priceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]", e);
 		}
 		
 	}
@@ -143,7 +143,7 @@ public class ProductPriceFacadeImpl implements ProductPriceFacade {
 		try {
 			return readablePrice(price, store, language);
 		} catch (ConversionException e) {
-			throw new ServiceRuntimeException("An exception occured while deleting product price [" + productPriceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]", e);
+			throw new ServiceRuntimeException("An exception occurred while deleting product price [" + productPriceId + "] for product sku [" + sku + "] and Store [" + store.getCode() + "]", e);
 		}
 	}
 

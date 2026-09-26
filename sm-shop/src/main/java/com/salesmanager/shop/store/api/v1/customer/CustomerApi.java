@@ -197,7 +197,7 @@ public class CustomerApi {
 			}
 			customerFacade.delete(customer);
 		} catch (Exception e) {
-			throw new ServiceRuntimeException("An error occured while deleting customer ["+userName+"]");
+			throw new ServiceRuntimeException("An error occurred while deleting customer ["+userName+"]");
 		}
 		
 

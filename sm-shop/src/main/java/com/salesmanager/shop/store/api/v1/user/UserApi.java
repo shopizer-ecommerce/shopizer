@@ -250,7 +250,7 @@ public class UserApi {
 
 		boolean isUserExist = true;// default user exist
 		try {
-			// will throw an exception if not fount
+			// will throw an exception if not found
 			userFacade.findByUserName(userName.getUnique(), userName.getMerchant(), language);
 
 		} catch (ResourceNotFoundException e) {

@@ -253,7 +253,7 @@ public class EmailTemplatesUtils {
 		           emailService.sendHtmlEmail(merchantStore, email);
 
 		       } catch (Exception e) {
-		           LOGGER.error("Error occured while sending order confirmation email ",e);
+		           LOGGER.error("Error occurred while sending order confirmation email ",e);
 		       }
 			
 		}
@@ -302,7 +302,7 @@ public class EmailTemplatesUtils {
 	           emailService.sendHtmlEmail(merchantStore, email);
 
 	       } catch (Exception e) {
-	           LOGGER.error("Error occured while sending welcome email ",e);
+	           LOGGER.error("Error occurred while sending welcome email ",e);
 	       }
 		
 	}
@@ -343,7 +343,7 @@ public class EmailTemplatesUtils {
 		           emailService.sendHtmlEmail(merchantStore, email);
 
 		       } catch (Exception e) {
-		           LOGGER.error("Error occured while sending contact email ",e);
+		           LOGGER.error("Error occurred while sending contact email ",e);
 		       }
 			
 		}
@@ -398,7 +398,7 @@ public class EmailTemplatesUtils {
 				emailService.sendHtmlEmail(merchantStore, email);
 
 	       } catch (Exception e) {
-	           LOGGER.error("Error occured while sending order download email ",e);
+	           LOGGER.error("Error occurred while sending order download email ",e);
 	       }
 		
 	}
@@ -446,7 +446,7 @@ public class EmailTemplatesUtils {
 	           emailService.sendHtmlEmail(merchantStore, email);
 
 	       } catch (Exception e) {
-	           LOGGER.error("Error occured while sending order download email ",e);
+	           LOGGER.error("Error occurred while sending order download email ",e);
 	       }
 		
 	}
@@ -490,7 +490,7 @@ public class EmailTemplatesUtils {
 				emailService.sendHtmlEmail(merchantStore, email);
 
 	       } catch (Exception e) {
-	           LOGGER.error("Error occured while sending change password email ",e);
+	           LOGGER.error("Error occurred while sending change password email ",e);
 	       }
 		
 	}
