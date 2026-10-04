@@ -19,6 +19,7 @@ import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.removeStart;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 
 @Component("jwtCustomAdminAuthenticationManager")
 public class JWTAdminAuthenticationManager extends CustomAuthenticationManager {
@@ -49,6 +50,8 @@ public class JWTAdminAuthenticationManager extends CustomAuthenticationManager {
       logger.error("an error occured during getting username from token", e);
     } catch (ExpiredJwtException e) {
       logger.warn("the token is expired and not valid anymore", e);
+    } catch (JwtException e) {
+      logger.warn("JWT token is invalid", e);
     }
 
 

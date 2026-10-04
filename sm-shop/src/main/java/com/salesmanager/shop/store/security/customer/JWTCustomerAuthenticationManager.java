@@ -20,6 +20,7 @@ import com.salesmanager.shop.store.security.common.CustomAuthenticationException
 import com.salesmanager.shop.store.security.common.CustomAuthenticationManager;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 
 @Component("jwtCustomCustomerAuthenticationManager")//different than jwtCustomerAuthenticationManager
 public class JWTCustomerAuthenticationManager extends CustomAuthenticationManager {
@@ -47,6 +48,8 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
             	logger.error("an error occured during getting username from token", e);
             } catch (ExpiredJwtException e) {
             	logger.warn("the token is expired and not valid anymore", e);
+            } catch (JwtException e) {
+            	logger.warn("JWT token is invalid", e);
             }
         } else {
         	throw new CustomAuthenticationException("No Bearer token found in the request");
