@@ -363,7 +363,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 	}
 
 	private Category getOne(Long categoryId, int storeId) {
-		return Optional.ofNullable(categoryService.getById(categoryId)).orElseThrow(
+		return Optional.ofNullable(categoryService.getById(categoryId, storeId)).orElseThrow(
 				() -> new ResourceNotFoundException(String.format("No Category found for ID : %s", categoryId)));
 	}
 
