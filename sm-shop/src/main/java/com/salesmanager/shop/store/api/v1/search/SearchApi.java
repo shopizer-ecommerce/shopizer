@@ -3,6 +3,8 @@ package com.salesmanager.shop.store.api.v1.search;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,7 +54,7 @@ public class SearchApi {
   
   //TODO use total, count and page
   public @ResponseBody List<SearchItem> search(
-      @RequestBody SearchProductRequest searchRequest,
+     @Valid @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
 
@@ -65,7 +67,7 @@ public class SearchApi {
     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
   })
   public @ResponseBody ValueList autocomplete(
-      @RequestBody SearchProductRequest searchRequest,
+     @Valid @RequestBody SearchProductRequest searchRequest,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language) {
     return searchFacade.autocompleteRequest(searchRequest.getQuery(), merchantStore, language);

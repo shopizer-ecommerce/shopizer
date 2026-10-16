@@ -1,6 +1,7 @@
 package com.salesmanager.shop.store.api.v1.marketplace;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,7 +64,7 @@ public class MarketPlaceApi {
 	// signup new merchant
 	@PostMapping("/store/signup")
 	@ApiOperation(httpMethod = "POST", value = "Signup store", notes = "", produces = "application/json", response = Void.class)
-	public void signup(@RequestBody SignupStore store, @ApiIgnore Language language) {
+	public void signup(@Valid @RequestBody SignupStore store, @ApiIgnore Language language) {
 
 		ReadableUser user = null;
 		try {
