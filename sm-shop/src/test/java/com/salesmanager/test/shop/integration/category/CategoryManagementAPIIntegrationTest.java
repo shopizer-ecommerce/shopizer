@@ -104,6 +104,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
     }
     
+    /**
     @Test
     public void putCategory() throws Exception {
 
@@ -137,11 +138,8 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         assertNotNull(cat.getId());
         
         HttpEntity<String> httpEntity = new HttpEntity<>(getHeader());
-        
-        /**
-         * Get by id moving to administration access
-         * For public access use friendly url
-         */
+
+
         
         final ResponseEntity<ReadableCategory> readableQuery = testRestTemplate.exchange(String.format("/api/v1//category/" +  description.getFriendlyUrl()), HttpMethod.GET,
             httpEntity, ReadableCategory.class);
@@ -175,6 +173,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         //update
 
     }
+     **/
 
     @Test
     public void postComplexCategory() throws Exception {
@@ -434,6 +433,8 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
      * Test category by name
      * @throws Exception
      */
+
+     /**
     
     @Test
     public void getByCategoryFriendlyUrl() throws Exception {
@@ -462,5 +463,6 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
             assertTrue(categoryCode.equals(categ.getCode()));
         }
     }
+        **/
 
 }

@@ -177,6 +177,40 @@ public class ZonesLoader {
 						Map<String, String> e = (Map<String, String>) z;
 						this.mapZone(l, zonesDescriptionsMap, countriesMap, zonesMap, zonesMark, e);
 
+						/**
+						 * String zoneCode = e.get("zoneCode"); ZoneDescription
+						 * zoneDescription = new ZoneDescription();
+						 * zoneDescription.setLanguage(l);
+						 * zoneDescription.setName(e.get("zoneName")); Zone zone
+						 * = null; List<ZoneDescription> descriptions = null; if
+						 * (!zonesMap.containsKey(zoneCode)) { zone = new
+						 * Zone(); Country country =
+						 * countriesMap.get(e.get("countryCode")); if (country
+						 * == null) { LOGGER.warn("Country is null for " +
+						 * zoneCode + " and country code " +
+						 * e.get("countryCode")); continue; }
+						 * zone.setCountry(country); zonesMap.put(zoneCode,
+						 * zone); zone.setCode(zoneCode);
+						 * 
+						 * }
+						 * 
+						 * if (zonesMark.containsKey(l.getCode() + "_" +
+						 * zoneCode)) { LOGGER.warn("This zone seems to be a
+						 * duplicate ! " + zoneCode + " and language code " +
+						 * l.getCode()); continue; }
+						 * 
+						 * zonesMark.put(l.getCode() + "_" + zoneCode,
+						 * l.getCode() + "_" + zoneCode);
+						 * 
+						 * if (zonesDescriptionsMap.containsKey(zoneCode)) {
+						 * descriptions = zonesDescriptionsMap.get(zoneCode); }
+						 * else { descriptions = new
+						 * ArrayList<ZoneDescription>();
+						 * zonesDescriptionsMap.put(zoneCode, descriptions); }
+						 * 
+						 * descriptions.add(zoneDescription);
+						 **/
+
 					}
 				} 
 

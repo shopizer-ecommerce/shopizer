@@ -1,9 +1,17 @@
+
+# Shopizer 3 (for java 17 +) (tested with Java 11, 17)
+
+3.2.7
+
+
 # Shopizer 3.X (for java 1.11 +) (tested with Java 11, 16 and 17)
 # Created By Shamshad
 > [!NOTE]
 > The team is working on an upcoming efficient microservices version. Stay tuned !
 
-[![last_version](https://img.shields.io/badge/last_version-v3.2.5-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.5)
+
+
+[![last_version](https://img.shields.io/badge/last_version-v3.2.7-blue.svg?style=flat)](https://github.com/shopizer-ecommerce/shopizer/tree/3.2.7)
 [![Official site](https://img.shields.io/website-up-down-green-red/https/shields.io.svg?label=official%20site)](http://www.shopizer.com/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/shopizerecomm/shopizer.svg)](https://hub.docker.com/r/shopizerecomm/shopizer)
 [![stackoverflow](https://img.shields.io/badge/shopizer-stackoverflow-orange.svg?style=flat)](http://stackoverflow.com/questions/tagged/shopizer)
@@ -25,13 +33,13 @@ Headless commerce and Rest api for ecommerce
 
 Shopizer Headless commerce consists of the following components:
 
-- Spring boot Java / Spring boot backend
-- Angular administration web application
-- React JS front end application
+
+Access the headless api: http://localhost:8080/swagger-ui.html
 
 Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
+
 
 Java 11+ (tested with Java 11, 16, and 17)
 
@@ -39,7 +47,7 @@ Maven (for building the project)
 
 Docker (optional, for containerized deployment)
 
-See the demo: [**New demo on the way 2023]
+See the demo: [**New demo on the way 2025]
 -------------------
 Headless demo Available soon
 
@@ -88,7 +96,6 @@ docker run \
 API documentation:
 -------------------
 
-https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/
 
 Get the source code:
 -------------------
@@ -96,13 +103,6 @@ Clone the repository:
      
 	 $ git clone git://github.com/shopizer-ecommerce/shopizer.git
 	 
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer-admin.git
-	 
-	 $ git clone git://github.com/shopizer-ecommerce/shopizer-shop-reactjs.git
-
-If this is your first time using Github, review http://help.github.com to learn the basics.
-
-You can also download the zip file containing the code from https://github.com/shopizer-ecommerce for each of the the projects above
 
 To build the application:
 -------------------
@@ -139,6 +139,9 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 ### Documentation:
 -------------------
 
+
+Documentation available [<https://shopizer-ecommerce.github.io/documentation/>](http://localhost:8080/swagger-ui/index.html)
+
 ### Documentation and Resources
 
 1. **Official Documentation**:
@@ -148,6 +151,7 @@ Please read the instructions on how to connect to MySQL, configure an email serv
 2. **API Documentation**:
    - **Description**: Explore all available API endpoints with examples and detailed descriptions. Ideal for developers integrating Shopizer into their applications.
    - **Link**: [Shopizer API Documentation](https://app.swaggerhub.com/apis-docs/shopizer/shopizer-rest-api/3.0.1#/)
+
 
 3. **Community and Support**:
    - **Slack Channel**:
@@ -171,6 +175,28 @@ so we can send an invite to our Slack channel
 
 ### How to Contribute:
 -------------------
+
+Fork the repository to your GitHub account
+
+Clone from fork repository
+-------------------
+
+       $ git clone https://github.com/yourusername/shopizer.git
+
+Build application according to steps provided above
+
+
+Create new branch in your repository
+-------------------
+
+	   $ git checkout -b branch-name
+
+
+Push your changes to Shopizer
+-------------------
+
+Please open a PR (pull request) in order to have your changes merged to the upstream
+
 Contributing to Shopizer is simple and rewarding. Follow the steps below to get started:
 
 1. **Fork the Repository**:
@@ -234,5 +260,6 @@ Contributing to Shopizer is simple and rewarding. Follow the steps below to get 
     - **Why**: Collaboration ensures your contribution meets project standards.
 
 ---
+
 
 

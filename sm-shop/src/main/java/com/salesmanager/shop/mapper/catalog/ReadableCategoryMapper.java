@@ -84,15 +84,10 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
 			if (source.getParent() != null) {
 
 			}
-			Optional<com.salesmanager.shop.model.catalog.category.CategoryDescription> description = source
-					.getDescriptions().stream().filter(d -> language.getId().equals(d.getLanguage().getId()))
-					.map(this::convertDescription).findAny();
+			
 
 			parent.setCode(source.getParent().getCode());
 			parent.setId(source.getParent().getId());
-			if (description.isPresent()) {
-				parent.setDescription(description.get());
-			}
 			return parent;
 		});
 	}
