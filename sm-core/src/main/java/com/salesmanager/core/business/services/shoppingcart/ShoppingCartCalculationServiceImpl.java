@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.order.OrderCalculationService;
 import com.salesmanager.core.business.services.order.OrderServiceImpl;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -39,7 +39,7 @@ public class ShoppingCartCalculationServiceImpl implements ShoppingCartCalculati
 	private ShoppingCartService shoppingCartService;
 
 	@Inject
-	private OrderService orderService;
+	private OrderCalculationService orderCalculationService;
 
 	/**
 	 * <p>
@@ -70,7 +70,7 @@ public class ShoppingCartCalculationServiceImpl implements ShoppingCartCalculati
 		Validate.notNull(cartModel.getLineItems(), "Cart should have line items.");
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Validate.notNull(customer, "Customer cannot be null");
-		OrderTotalSummary orderTotalSummary = orderService.calculateShoppingCartTotal(cartModel, customer, store,
+		OrderTotalSummary orderTotalSummary = orderCalculationService.calculateShoppingCartTotal(cartModel, customer, store,
 				language);
 		updateCartModel(cartModel);
 		return orderTotalSummary;
@@ -104,7 +104,7 @@ public class ShoppingCartCalculationServiceImpl implements ShoppingCartCalculati
 		Validate.notNull(cartModel, "cart cannot be null");
 		Validate.notNull(cartModel.getLineItems(), "Cart should have line items.");
 		Validate.notNull(store, "MerchantStore cannot be null");
-		OrderTotalSummary orderTotalSummary = orderService.calculateShoppingCartTotal(cartModel, store, language);
+		OrderTotalSummary orderTotalSummary = orderCalculationService.calculateShoppingCartTotal(cartModel, store, language);
 		updateCartModel(cartModel);
 		return orderTotalSummary;
 

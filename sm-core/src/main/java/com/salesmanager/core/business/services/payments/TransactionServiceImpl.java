@@ -205,4 +205,9 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		return transactionRepository.findByDates(startDate, endDate);
 	}
 
+
+	public Transaction findCapturableTransaction(List<Transaction> transactions) {
+    return domainService.findCapturableTransaction(transactions).orElse(null);
+}
+
 }

@@ -73,7 +73,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		List<Country> requestedCountryList = new ArrayList<Country>();
 		if(!CollectionUtils.isEmpty(countryList)) {
 			for(Country c : countryList) {
-				if(isoCodes.contains(c.getIsoCode())) {
+				if(isoCodes.contains(c.getIsoCode()) && !requestedCountryList.contains(c)) {
 					requestedCountryList.add(c);
 				}
 			}
