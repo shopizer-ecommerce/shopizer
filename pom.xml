@@ -37,6 +37,9 @@
 		<!--java version -->
 		<java.version>11</java.version>
 
+		<!-- Override the Spring Framework version managed by Spring Boot 2.5.12 (5.3.18) to fix CVE-2024-38808 -->
+		<spring-framework.version>5.3.39</spring-framework.version>
+
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 
@@ -46,7 +49,7 @@
 		<!-- TODO replace with starter -->
 		<elasticsearch.version>7.5.2</elasticsearch.version>
 		<guava.version>27.1-jre</guava.version>
-		<commons-lang.version>3.5</commons-lang.version>
+		<commons-lang.version>3.18.0</commons-lang.version>
 		<commons-io.version>2.7</commons-io.version>
 		<commons-collections4.version>4.1</commons-collections4.version>
 		<commons-validator.version>1.5.1</commons-validator.version>
